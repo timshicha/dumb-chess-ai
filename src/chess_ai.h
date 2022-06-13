@@ -1,63 +1,10 @@
+#pragma once
+#include "util.h"
+#include "tile.h"
+#include "piece.h"
+
 #include <memory>
 
-
-enum class Color { WHITE, BLACK };  //Use "class" to shut up compiler warnings
-
-class Piece;    //Forward declaration
-
-class Tile
-{
-public:
-    Tile() = default;
-    ~Tile() = default;
-
-    void setTile(Color color);
-    void setContainedPiece(Piece* containedPiece);
-private:
-    Color mColor = Color::WHITE;
-    //Reference to piece standing on the tile
-    Piece* mContainedPiece = nullptr;
-};
-
-using ptr = Tile(*)[8][8];  //Pointer to 2d array of tiles
-//i.e, ptr tiles ==  Tile(*tiles)[8][8]
-
-class Piece
-{
-public:
-    Piece(Color color, int row, int col, ptr tiles) : mColor{ color }, mRow{ row }, mCol{ col }, mTiles{ tiles }
-    {
-        (*mTiles)[row][col].setContainedPiece(this);
-    }
-    virtual ~Piece() = default;
-
-    //Advance to the next permutation
-    virtual void nextMove() {};
-
-    Color getColor() const;
-
-protected:
-    Color mColor;
-    //The position indices of the piece
-    int mRow, mCol;
-
-    //Reference to the chess board
-    ptr mTiles;
-};
-
-class Rook : public Piece
-{
-public:
-    Rook(Color color, int row, int col, ptr tiles) : Piece{ color, row, col, tiles } {}
-
-    virtual ~Rook() = default;
-
-    void nextMove() override;
-    int getValue() const;
-
-private:
-    int mValue = 8;
-};
 
 class ChessBoard
 {
