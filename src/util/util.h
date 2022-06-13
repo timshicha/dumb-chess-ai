@@ -1,5 +1,5 @@
 #pragma once
-#include "tile.h"
+#include "../tile/tile.h"
 
 enum class Color { WHITE, BLACK };  //Use "class" to shut up compiler warnings
 

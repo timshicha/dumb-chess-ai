@@ -1,7 +1,7 @@
 #pragma once
-#include "util.h"
-#include "tile.h"
-#include "piece.h"
+#include "util/util.h"
+#include "tile/tile.h"
+#include "piece/piece.h"
 
 #include <memory>
 
