@@ -1,8 +1,107 @@
+#include <memory>
+
+
+enum class Color { WHITE, BLACK };  //Use "class" to shut up compiler warnings
+
+class Piece;    //Forward declaration
+
+class Tile
+{
+public:
+    Tile() = default;
+    ~Tile() = default;
+
+    void setTile(Color color);
+    void setContainedPiece(Piece* containedPiece);
+private:
+    Color mColor = Color::WHITE;
+    //Reference to piece standing on the tile
+    Piece* mContainedPiece = nullptr;
+};
+
+using ptr = Tile(*)[8][8];  //Pointer to 2d array of tiles
+//i.e, ptr tiles ==  Tile(*tiles)[8][8]
+
+class Piece
+{
+public:
+    Piece(Color color, int row, int col, ptr tiles) : mColor{ color }, mRow{ row }, mCol{ col }, mTiles{ tiles }
+    {
+        (*mTiles)[row][col].setContainedPiece(this);
+    }
+    virtual ~Piece() = default;
+
+    //Advance to the next permutation
+    virtual void nextMove() {};
+
+    Color getColor() const;
+
+protected:
+    Color mColor;
+    //The position indices of the piece
+    int mRow, mCol;
+
+    //Reference to the chess board
+    ptr mTiles;
+};
+
+class Rook : public Piece
+{
+public:
+    Rook(Color color, int row, int col, ptr tiles) : Piece{ color, row, col, tiles } {}
+
+    virtual ~Rook() = default;
+
+    void nextMove() override;
+    int getValue() const;
+
+private:
+    int mValue = 8;
+};
+
+class ChessBoard
+{
+public:
+    ChessBoard()
+    {
+        //Initlize all of the tiles
+        int count = 0;
+        for (auto iRow : mTiles)
+        {
+            for (auto iTile : mTiles[0])
+            {
+                if (count % 2 == 0)
+                    iTile.setTile(Color::WHITE);
+                else
+                    iTile.setTile(Color::BLACK);
+            }
+        }
+
+        Color color = Color::WHITE;
+        int row = 0;
+        int col = 0;
+
+        //Add all of the pieces on the board
+        mWhitePieces[0].reset(new Rook{ color, row, col, &mTiles });
+        //... lotta pieces to add manually
+        //Could read out of a file or something
+    }
+    ~ChessBoard() = default;
+
+private:
+    //64 total tiles on the board
+    Tile mTiles[8][8];
+
+    //16 pieces of each color
+    std::unique_ptr<Piece> mWhitePieces[16];
+    std::unique_ptr<Piece> mBlackPieces[16];
+};
+
 
 
 // User color
-const int WHITE = 0;
-const int BLACK = 1;
+//const int WHITE = 0;
+//const int BLACK = 1;
 
 // Represent pieces on the chessboard with integers
 const int USER_KING = 11;
@@ -36,3 +135,4 @@ class Chess_AI
   private:
     int ** chessboard;
 };
+
