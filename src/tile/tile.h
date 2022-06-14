@@ -1,8 +1,12 @@
 #pragma once
 #include "../util/util.h"
 
-class Piece;    //Forward declaration
-enum class Color;
+// Forward declarations
+class Piece;
+class Tile;
+
+using tilesPtr = Tile(*)[8][8];  //Pointer to 2d array of tiles
+//i.e, ptr tiles ==  Tile(*tiles)[8][8]
 
 class Tile
 {

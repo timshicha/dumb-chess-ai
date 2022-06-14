@@ -1,6 +1,7 @@
 #pragma once
 #include "../util/util.h"
 #include <memory>
+#include <limits>
 
 class Piece
 {
@@ -22,6 +23,7 @@ class Piece
     tilesPtr mTiles;
 };
 
+
 class Pawn : public Piece
 {
   public:
@@ -35,6 +37,7 @@ class Pawn : public Piece
   private:
     int mValue = 1;
 };
+
 
 class Knight : public Piece
 {
@@ -50,6 +53,7 @@ class Knight : public Piece
     int mValue = 3;
 };
 
+
 class Bishop : public Piece
 {
   public:
@@ -63,6 +67,7 @@ class Bishop : public Piece
   private:
     int mValue = 3;
 };
+
 
 class Rook : public Piece
 {
@@ -78,6 +83,7 @@ class Rook : public Piece
     int mValue = 5;
 };
 
+
 class Queen : public Piece
 {
   public:
@@ -92,6 +98,7 @@ class Queen : public Piece
     int mValue = 9;
 };
 
+
 class King : public Piece
 {
   public:
@@ -100,4 +107,6 @@ class King : public Piece
     virtual ~King() = default;
 
     void nextMove() override;
+    int getValue() const;
 };
+

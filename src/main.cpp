@@ -1,5 +1,5 @@
-# include <stdio.h>
-# include "chess_ai.h"
+#include <stdio.h>
+#include "chess_ai.h"
 
 using namespace std;
 
