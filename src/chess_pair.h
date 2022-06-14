@@ -20,6 +20,11 @@ class Tile
     {
         this->mContainedPiece = containedPiece;
     }
+
+    Piece* getContainedPiece()
+    {
+        return this->mContainedPiece;
+    }
     
   private:
     Color mColor = Color::WHITE;
@@ -46,10 +51,30 @@ public:
         return this->mColor;
     }
 
+    bool isAlive()
+    {
+        return this->mAlive;
+    }
+
+    int getRow()
+    {
+        return this->mRow;
+    }
+
+    int getCol()
+    {
+        return this->mCol;
+    }
+
+    // Get the name of the piece (for display purposes)
+    virtual std::string getName() const = 0;
+
+
 protected:
     Color mColor;
     //The position indices of the piece
     int mRow, mCol;
+    bool mAlive = true;
 
     //Reference to the ChessBoards's tiles
     tilesPtr mTiles;

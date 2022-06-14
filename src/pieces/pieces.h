@@ -15,6 +15,7 @@ class Pawn : public Piece
 
     void nextMove() override;
     int getValue() const;
+    std::string getName() const override;
 
   private:
     int mValue = 1;
@@ -30,6 +31,7 @@ class Knight : public Piece
 
     void nextMove() override;
     int getValue() const;
+    std::string getName() const override;
 
   private:
     int mValue = 3;
@@ -45,6 +47,7 @@ class Bishop : public Piece
 
     void nextMove() override;
     int getValue() const;
+    std::string getName() const override;
 
   private:
     int mValue = 3;
@@ -60,6 +63,7 @@ class Rook : public Piece
 
     void nextMove() override;
     int getValue() const;
+    std::string getName() const override;
 
   private:
     int mValue = 5;
@@ -75,6 +79,7 @@ class Queen : public Piece
 
     void nextMove() override;
     int getValue() const;
+    std::string getName() const override;
 
   private:
     int mValue = 9;
@@ -90,5 +95,6 @@ class King : public Piece
 
     void nextMove() override;
     int getValue() const;
+    std::string getName() const override;
 };
 
