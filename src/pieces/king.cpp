@@ -1,5 +1,8 @@
 #pragma once
-#include "piece.h"
+#include "pieces.h"
+
+
+void King::nextMove() {}
 
 
 int King::getValue() const

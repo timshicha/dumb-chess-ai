@@ -1,8 +1,11 @@
 #pragma once
-#include "piece.h"
+#include "pieces.h"
 
 
-int Knight::getValue() const
+void Rook::nextMove() {}
+
+
+int Rook::getValue() const
 {
     // May do some calculations to get an adjusted piece value
     return mValue;

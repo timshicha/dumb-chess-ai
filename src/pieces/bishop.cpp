@@ -1,8 +1,11 @@
 #pragma once
-#include "piece.h"
+#include "pieces.h"
 
 
-int Rook::getValue() const
+void Bishop::nextMove() {}
+
+
+int Bishop::getValue() const
 {
     // May do some calculations to get an adjusted piece value
     return mValue;

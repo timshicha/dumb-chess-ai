@@ -1,27 +1,9 @@
 #pragma once
 #include "../util/util.h"
+#include "../chess_pair.h"
+
 #include <memory>
 #include <limits>
-
-class Piece
-{
-  public:
-    Piece(Color color, int row, int col, tilesPtr tiles);
-    virtual ~Piece() = default;
-
-    //Advance to the next permutation
-    virtual void nextMove();
-
-    Color getColor() const;
-
-  protected:
-    Color mColor;
-    //The position indices of the piece
-    int mRow, mCol;
-
-    //Reference to the ChessBoards's tiles
-    tilesPtr mTiles;
-};
 
 
 class Pawn : public Piece

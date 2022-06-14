@@ -1,11 +1,12 @@
 #include <stdio.h>
-#include "chess_ai.h"
+#include "chess_board.h"
 
 using namespace std;
 
 
-int main()
+int main(int argc, char* argv[])
 {
-    //comment
+    ChessBoard test;
+
     return 0;
 }

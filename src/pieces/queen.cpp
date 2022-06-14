@@ -1,5 +1,8 @@
 #pragma once
-#include "piece.h"
+#include "pieces.h"
+
+
+void Queen::nextMove() {}
 
 
 int Queen::getValue() const

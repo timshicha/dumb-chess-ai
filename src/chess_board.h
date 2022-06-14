@@ -1,7 +1,7 @@
 #pragma once
 #include "util/util.h"
-#include "tile/tile.h"
-#include "piece/piece.h"
+#include "chess_pair.h"
+#include "pieces/pieces.h"
 
 #include <memory>
 
@@ -74,6 +74,7 @@ class ChessBoard
             mBlackPieces[blackPieceCount++].reset(new Pawn{Color::BLACK, 6, iCol, &mTiles});        
         }
     }
+
     ~ChessBoard() = default;
 
   private:

@@ -1,8 +1,11 @@
 #pragma once
-#include "piece.h"
+#include "pieces.h"
 
 
-int Pawn::getValue() const
+void Knight::nextMove() {}
+
+
+int Knight::getValue() const
 {
     // May do some calculations to get an adjusted piece value
     return mValue;

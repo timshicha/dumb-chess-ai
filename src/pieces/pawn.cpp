@@ -1,8 +1,11 @@
 #pragma once
-#include "piece.h"
+#include "pieces.h"
 
 
-int Bishop::getValue() const
+void Pawn::nextMove(){}
+
+
+int Pawn::getValue() const
 {
     // May do some calculations to get an adjusted piece value
     return mValue;
