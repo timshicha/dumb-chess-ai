@@ -2,7 +2,7 @@
 #include "pieces.h"
 
 
-void Rook::nextMove() {}
+bool Rook::nextMove() { return false; }
 
 
 int Rook::getValue() const

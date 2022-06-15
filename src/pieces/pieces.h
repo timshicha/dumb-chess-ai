@@ -5,7 +5,6 @@
 #include <memory>
 #include <limits>
 
-
 class Pawn : public Piece
 {
   public:
@@ -13,7 +12,7 @@ class Pawn : public Piece
 
     virtual ~Pawn() = default;
 
-    void nextMove() override;
+    bool nextMove() override;
     int getValue() const;
     std::string getName() const override;
 
@@ -29,7 +28,7 @@ class Knight : public Piece
 
     virtual ~Knight() = default;
 
-    void nextMove() override;
+    bool nextMove() override;
     int getValue() const;
     std::string getName() const override;
 
@@ -45,12 +44,19 @@ class Bishop : public Piece
 
     virtual ~Bishop() = default;
 
-    void nextMove() override;
+    bool nextMove() override;
     int getValue() const;
     std::string getName() const override;
 
   private:
     int mValue = 3;
+    //Movement patterns
+    bool mUpLeftSequence = true;
+    bool mUpRightSequence = false;
+    bool mDownRightSequence = false;
+    bool mDownLeftSequence = false;
+    //Indicates whether all moves have been tried
+    bool completedCycle = false;
 };
 
 
@@ -61,7 +67,7 @@ class Rook : public Piece
 
     virtual ~Rook() = default;
 
-    void nextMove() override;
+    bool nextMove() override;
     int getValue() const;
     std::string getName() const override;
 
@@ -77,7 +83,7 @@ class Queen : public Piece
 
     virtual ~Queen() = default;
 
-    void nextMove() override;
+    bool nextMove() override;
     int getValue() const;
     std::string getName() const override;
 
@@ -93,7 +99,7 @@ class King : public Piece
 
     virtual ~King() = default;
 
-    void nextMove() override;
+    bool nextMove() override;
     int getValue() const;
     std::string getName() const override;
 };

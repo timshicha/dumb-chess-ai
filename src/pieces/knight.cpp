@@ -2,7 +2,7 @@
 #include "pieces.h"
 
 
-void Knight::nextMove() {}
+bool Knight::nextMove() { return false; }
 
 
 int Knight::getValue() const

@@ -11,11 +11,12 @@ class ChessBoard
   public:
     // Create starting chess board
     ChessBoard();
+    ~ChessBoard() = default;
 
     // Nice visualization tool for debugging
     std::string get_board_as_string();
 
-    ~ChessBoard() = default;
+    void test();
 
   private:
     //64 total tiles on the board

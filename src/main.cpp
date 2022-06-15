@@ -9,5 +9,7 @@ int main(int argc, char* argv[])
     ChessBoard test;
     cout << test.get_board_as_string();
 
+    test.test();
+
     return 0;
 }

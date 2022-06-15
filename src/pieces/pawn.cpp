@@ -2,8 +2,7 @@
 #include "pieces.h"
 
 
-void Pawn::nextMove(){}
-
+bool Pawn::nextMove() { return false; }
 
 int Pawn::getValue() const
 {

@@ -2,7 +2,7 @@
 #include "pieces.h"
 
 
-void King::nextMove() {}
+bool King::nextMove() { return false; }
 
 
 int King::getValue() const
