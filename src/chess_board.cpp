@@ -3,11 +3,11 @@
 
 ChessBoard::ChessBoard()
 {
-        //Initlize all of the tiles
+    //Initialize all of the tiles
     int count = 0;
-    for (auto iRow : mTiles)
+    for (auto& iRow : mTiles)
     {
-        for (auto iTile : mTiles[0])
+        for (auto& iTile : iRow)
         {
             if (count % 2 == 0)
                 iTile.setTile(Color::WHITE);
@@ -19,7 +19,7 @@ ChessBoard::ChessBoard()
 
     //Add all of the pieces on the board
     /*
-            0 1 2 3 4 5 6 7       
+          0 1 2 3 4 5 6 7       
         0 W B W B W B W B
         1 B W B W B W B W
         2 W B W B W B W B
@@ -54,31 +54,19 @@ ChessBoard::ChessBoard()
     mBlackPieces[blackPieceCount++].reset(new Knight{Color::BLACK, 7, 1, &mTiles});
     mBlackPieces[blackPieceCount++].reset(new Knight{Color::BLACK, 7, 6, &mTiles});
     
-    //Add rooks
+    ////Add rooks
     mWhitePieces[whitePieceCount++].reset(new Rook{Color::WHITE, 0, 0, &mTiles});
     mWhitePieces[whitePieceCount++].reset(new Rook{Color::WHITE, 0, 7, &mTiles});
     mBlackPieces[blackPieceCount++].reset(new Rook{Color::BLACK, 7, 0, &mTiles});
     mBlackPieces[blackPieceCount++].reset(new Rook{Color::BLACK, 7, 7, &mTiles});
     
+    /*Don't add pawns to test bishop moves*/
     //Add pawns
-    for(int iCol = 0; iCol < 8; ++iCol)
+   /* for(int iCol = 0; iCol < 8; ++iCol)
     {
         mWhitePieces[whitePieceCount++].reset(new Pawn{Color::WHITE, 1, iCol, &mTiles});
         mBlackPieces[blackPieceCount++].reset(new Pawn{Color::BLACK, 6, iCol, &mTiles});        
-    }
-
-    
-    // Now set each tile to point to the pieces
-    for (int iPiece = 0; iPiece < 16; iPiece++)
-    {
-        // Set tiles to point to white pieces
-        mTiles[mWhitePieces[iPiece].get()->getRow()][mWhitePieces[iPiece].get()->getCol()]
-            .setContainedPiece(mWhitePieces[iPiece].get());
-        
-        // Set tiles to point to black pieces
-        mTiles[mBlackPieces[iPiece].get()->getRow()][mBlackPieces[iPiece].get()->getCol()]
-            .setContainedPiece(mBlackPieces[iPiece].get());
-    }
+    }*/
 }
 
 
@@ -146,4 +134,16 @@ std::string ChessBoard::get_board_as_string()
     }
     // Return the table as a string
     return result;
+}
+
+void ChessBoard::test()
+{
+    for (int i = 0; i < 8; ++i)
+    {
+        Piece* temp = mBlackPieces[i].get();
+        while (temp->nextMove() == true) 
+        {
+            std::cout << this->get_board_as_string() << "\n\n";
+        }
+    }
 }
