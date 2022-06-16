@@ -147,11 +147,12 @@ void ChessBoard::test()
         }
     }
     
-    // Testing Knight's possibleLandings() function...
+    // Testing a piece's possibleLandings() function...
     /*
-    Knight* a = static_cast<Knight*> ((mTiles[7][1]).getContainedPiece());
+    mTiles[4][0].setContainedPiece(mTiles[0][4].getContainedPiece());
+    Rook* a = static_cast<Rook*> ((mTiles[0][0]).getContainedPiece());
     std::vector<std::vector<int>> b = a->getLegalMoves();
-    std::cerr << "The knight at row 7 column 1 can move to the following positions:" << std::endl;
+    std::cerr << "The piece at row 7 column 1 can move to the following positions:" << std::endl;
     for (int i = 0; i < b.size(); i++)
     {
         std::cerr << b[i][0] << " " << b[i][1] << std::endl;
