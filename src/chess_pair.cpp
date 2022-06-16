@@ -26,7 +26,7 @@ Piece* Piece::MOVED_PIECE = nullptr;
 bool Piece::HAS_MOVED = false;
 
 
-Piece::Piece(Color color, int row, int col, tilesPtr tiles) : mColor{ color }, mRow{ row }, mCol{ col }, mTiles{ tiles }
+Piece::Piece(int value, Color color, int row, int col, tilesPtr tiles) : mValue{value}, mColor { color }, mRow{ row }, mCol{ col }, mTiles{ tiles }
 {
     //Notify the tile of this piece
     (*mTiles)[mRow][mCol].setContainedPiece(this);
@@ -144,14 +144,14 @@ void Piece::undoTempMove()
 }
 
 
-Color Piece::getColor() const { return this->mColor; }
+Color Piece::getColor() const { return mColor; }
 
 
-int Piece::getRow() const { return this->mRow; }
+int Piece::getRow() const { return mRow; }
 
 
-int Piece::getCol() const { return this->mCol; }
+int Piece::getCol() const { return mCol; }
 
 
-bool Piece::isAlive() const { return this->mAlive; }
+bool Piece::isAlive() const { return mAlive; }
 

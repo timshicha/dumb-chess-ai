@@ -105,16 +105,10 @@ std::vector<std::vector<int>> Rook::getLegalMoves()
     return legalMoves;
 }
 
+
 bool Rook::peekNextPossibleMove() { return false; }
 
 
-int Rook::getValue() const
-{
-    // May do some calculations to get an adjusted piece value
-    return mValue;
-}
+int Rook::getValue() const { return mValue; }
 
-std::string Rook::getName() const
-{
-    return "Rook  ";
-}
+std::string Rook::getName() const { return "Rook  "; }

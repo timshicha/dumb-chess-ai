@@ -211,10 +211,10 @@ std::string ChessBoard::get_board_as_string()
         for (int j = 0; j < 8; j++)
         {
             // If there's a piece
-            if(this->mTiles[i][j].getContainedPiece() != nullptr)
+            if(mTiles[i][j].getContainedPiece() != nullptr)
             {
                 // Determine the color to display
-                if(this->mTiles[i][j].getContainedPiece()->getColor() == Color::WHITE)
+                if(mTiles[i][j].getContainedPiece()->getColor() == Color::WHITE)
                     result += "White ";
                 else
                     result += "Black ";
@@ -232,8 +232,8 @@ std::string ChessBoard::get_board_as_string()
         for (int j = 0; j < 8; j++)
         {
             // If there's a piece, display the piece
-            if(this->mTiles[i][j].getContainedPiece() != nullptr)
-                result += this->mTiles[i][j].getContainedPiece()->getName();
+            if(mTiles[i][j].getContainedPiece() != nullptr)
+                result += mTiles[i][j].getContainedPiece()->getName();
             else
                 result += "      ";
             if(j < 7)

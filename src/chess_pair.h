@@ -29,7 +29,7 @@ using tilesPtr = Tile(*)[8][8];
 class Piece
 {
 public:
-    Piece(Color color, int row, int col, tilesPtr tiles);
+    Piece(int value, Color color, int row, int col, tilesPtr tiles);
 
     virtual ~Piece() = default;
 
@@ -44,6 +44,7 @@ public:
     int getRow() const;
     int getCol() const;
     bool isAlive() const;
+    virtual int getValue() const = 0;
 
     // Get the name of the piece (for display purposes)
     virtual std::string getName() const = 0;
@@ -69,9 +70,10 @@ protected:
     //Notify all class objects about which piece was moved
     static Piece* MOVED_PIECE;
     
+    const int mValue;
+    Color mColor;  
     int mRow, mCol; //The position indices of the piece
     bool mAlive = true; //(always vaild, even if piece is not alive)
-    Color mColor;   
 
     //Reference to the ChessBoards's tiles
     tilesPtr mTiles;
