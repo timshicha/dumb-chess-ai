@@ -69,6 +69,119 @@ ChessBoard::ChessBoard()
     }*/
 }
 
+// Create a chessboard as specified in text file
+ChessBoard::ChessBoard(const char* filename)
+{
+    std::ifstream file(filename);
+
+    std::string board [8][8];
+
+    // Read from file
+    if(file.is_open())
+    {
+        std::string line;
+        int row = 0;
+        while (std::getline(file, line))
+        {
+            int col = 0;
+            for (int i = 0; i < line.length(); i++)
+            {
+                // If we reached the end (eof)
+                if(line[i] == 13) break;
+                if(line[i] == ','){col++; continue;}
+                board[row][col] += line[i];
+            }
+            row++;
+        }
+    }
+    file.close();
+
+    //Initialize all of the tiles
+    int count = 0;
+    for (auto& iRow : mTiles)
+    {
+        for (auto& iTile : iRow)
+        {
+            if (count % 2 == 0)
+                iTile.setTile(Color::WHITE);
+            else
+                iTile.setTile(Color::BLACK);
+            count++;
+        }
+    }
+
+    //Add all of the pieces on the board
+    /*
+          0 1 2 3 4 5 6 7       
+        0 W B W B W B W B
+        1 B W B W B W B W
+        2 W B W B W B W B
+        3 B W B W B W B W
+        4 W B W B W B W B
+        5 B W B W B W B W
+        6 W B W B W B W B
+        7 B W B W B W B W
+    */
+
+   int whitePieceCount = 0;
+   int blackPieceCount = 0;
+    // Find the kings (they should be the first element in list)
+    for(int iBoardRow = 0; iBoardRow < 8; iBoardRow++)
+    {
+        for(int iBoardCol = 0; iBoardCol < 8; iBoardCol++)
+        {
+            if(board[iBoardRow][iBoardCol] == "wKing")
+            {
+                mWhitePieces[whitePieceCount++].reset(new King{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                board[iBoardRow][iBoardCol] = "0";
+            }
+            else if(board[iBoardRow][iBoardCol] == "bKing")
+            {
+                mBlackPieces[blackPieceCount++].reset(new King{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                board[iBoardRow][iBoardCol] = "0";
+            }
+        }
+    }
+
+    // Now for all other pieces, add them anywhere in array
+    for(int iBoardRow = 0; iBoardRow < 8; iBoardRow++)
+    {
+        for(int iBoardCol = 0; iBoardCol < 8; iBoardCol++)
+        {
+            std::string word = board[iBoardRow][iBoardCol];
+
+            if(word == "wQueen")
+                mWhitePieces[whitePieceCount++].reset(new Queen{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+            if(word == "wRook")
+                mWhitePieces[whitePieceCount++].reset(new Rook{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+            if(word == "wBishop")
+                mWhitePieces[whitePieceCount++].reset(new Bishop{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+            if(word == "wKnight")
+                mWhitePieces[whitePieceCount++].reset(new Knight{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+            if(word == "wPawn")
+                mWhitePieces[whitePieceCount++].reset(new Pawn{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+
+            if(word == "bQueen")
+                mBlackPieces[blackPieceCount++].reset(new Queen{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+            if(word == "bRook")
+                mBlackPieces[blackPieceCount++].reset(new Rook{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+            if(word == "bBishop")
+                mBlackPieces[blackPieceCount++].reset(new Bishop{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+            if(word == "bKnight")
+                mBlackPieces[blackPieceCount++].reset(new Knight{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+            if(word == "bPawn")
+                mBlackPieces[blackPieceCount++].reset(new Pawn{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+        }
+    }
+
+    // Fill in the rest with blanks
+    for (int i = whitePieceCount; i < 16; i++)
+        mWhitePieces[i].reset(nullptr);
+
+    for (int i = blackPieceCount; i < 16; i++)
+        mBlackPieces[i].reset(nullptr);
+}
+
 
 // Converts the chess board into a nicely formatted string.
 // The string can be displayed for a nice looking chess board visual.

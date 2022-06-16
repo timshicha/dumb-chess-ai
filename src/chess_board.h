@@ -11,6 +11,8 @@ class ChessBoard
   public:
     // Create starting chess board
     ChessBoard();
+    // Create chessboard as specified by textfile (for testing)
+    ChessBoard(const char * filename);
     ~ChessBoard() = default;
 
     // Nice visualization tool for debugging
