@@ -26,7 +26,8 @@ class Knight : public Piece
     virtual ~Knight() = default;
 
     // Returns a vector of coordinates where the knight can move.
-    std::vector<std::vector<int>> getLegalMoves();
+    std::vector<std::pair<int, int>> getLegalMoves() const;
+
     bool peekNextPossibleMove() override;
     int getValue() const override;
     std::string getName() const override;
@@ -66,7 +67,7 @@ class Rook : public Piece
     int getValue() const override;
     std::string getName() const override;
     // Returns a vector of coordinates where the rook can move.
-    std::vector<std::vector<int>> getLegalMoves();
+    std::vector<std::pair<int, int>> getLegalMoves() const;
 };
 
 

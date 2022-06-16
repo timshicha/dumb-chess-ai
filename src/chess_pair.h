@@ -38,7 +38,7 @@ public:
     virtual bool peekNextPossibleMove() = 0;
 
     //Checks if the provided row and column are on the board
-    bool isInRange(int row, int col);
+    bool isInRange(int row, int col) const;
 
     Color getColor() const;
     int getRow() const;

@@ -4,10 +4,10 @@
 
 // Returns a vector of coordinates where the rook can move.
 // Does not exclude moves where the rook puts own king in check.
-std::vector<std::vector<int>> Rook::getLegalMoves()
+std::vector<std::pair<int, int>> Rook::getLegalMoves() const
 {
     // Holds the list of coords the knight can play that are on the board.
-    std::vector<std::vector<int>> legalMoves;
+    std::vector<std::pair<int, int>> legalMoves;
 
     int row, col;
 

@@ -49,7 +49,7 @@ void Piece::undoTempKill()
 }
 
 
-bool Piece::isInRange(int row, int col)
+bool Piece::isInRange(int row, int col) const
 {
     if (row > 7 || row < 0 || col > 7 || col < 0)
         return false;
