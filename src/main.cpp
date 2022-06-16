@@ -6,10 +6,10 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    ChessBoard test;
+    ChessBoard test("board.txt");
     cout << test.get_board_as_string();
 
-    test.test();
+    //test.test();
 
     return 0;
 }
