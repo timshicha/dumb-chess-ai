@@ -4,7 +4,7 @@
 // Returns a vector of coordinates where the knight can land.
 // Does not check if it's a legal move. Only checks if the move is
 // out of the board.
-std::vector<std::vector<int>> Knight::possibleLandings()
+std::vector<std::vector<int>> Knight::getLegalMoves()
 {
     // All the possible places the knight can land.
     // Next step is checking which moves are on the board.
@@ -22,15 +22,28 @@ std::vector<std::vector<int>> Knight::possibleLandings()
 
 
     // Holds the list of coords the knight can play that are on the board.
-    std::vector<std::vector<int>> landingSpots;
+    std::vector<std::vector<int>> legalMoves;
 
-    // For each knight move that's on the board, add to the landing spots.
+    int col = 0;
+    int row = 0;
+    // For each knight move
     for (int iMoveType = 0; iMoveType < 8; iMoveType++)
     {
-        if(isInRange(possibleMoves[iMoveType][0], possibleMoves[iMoveType][1]))
-            landingSpots.push_back(possibleMoves[iMoveType]);
+        // Store the row and column so we don't have to keep accessing the vector
+        // (and for clarity's sake)
+        row = possibleMoves[iMoveType][0];
+        col = possibleMoves[iMoveType][1];
+        // If the landing is on the board
+        if(isInRange(row, col))
+        {
+            // Make sure that there is either no piece, or that the piece is opponent's
+            if((*mTiles)[row][col].getContainedPiece() == nullptr || (*mTiles)[row][col].getContainedPiece()->getColor() != this->mColor)
+            {
+                legalMoves.push_back(possibleMoves[iMoveType]);
+            }
+        }
     }
-    return landingSpots;
+    return legalMoves;
 }
 
 bool Knight::nextMove() { return false; }

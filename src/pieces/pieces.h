@@ -28,10 +28,8 @@ class Knight : public Piece
 
     virtual ~Knight() = default;
 
-    // Returns a vector of coordinates where the knight can land.
-    // Does not check if it's a legal move. Only checks if the move is
-    // out of the board.
-    std::vector<std::vector<int>> possibleLandings();
+    // Returns a vector of coordinates where the knight can move.
+    std::vector<std::vector<int>> getLegalMoves();
     bool nextMove() override;
     int getValue() const;
     std::string getName() const override;
