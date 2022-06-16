@@ -1,23 +1,22 @@
 #pragma once
 #include "pieces.h"
 
-// Returns a vector of coordinates where the knight can land.
-// Does not check if it's a legal move. Only checks if the move is
-// out of the board.
+// Returns a vector of coordinates where the knight can move.
+// Does not exclude moves where the knight puts own king in check.
 std::vector<std::vector<int>> Knight::getLegalMoves()
 {
     // All the possible places the knight can land.
     // Next step is checking which moves are on the board.
     std::vector<std::vector<int>> possibleMoves
     {
-        {this->mRow - 2, this->mCol + 1},
-        {this->mRow - 1, this->mCol + 2},
-        {this->mRow + 1, this->mCol + 2},
-        {this->mRow + 2, this->mCol + 1},
-        {this->mRow + 2, this->mCol - 1},
-        {this->mRow + 1, this->mCol - 2},
-        {this->mRow - 1, this->mCol - 2},
-        {this->mRow - 2, this->mCol - 1}
+        {mRow - 2, mCol + 1},
+        {mRow - 1, mCol + 2},
+        {mRow + 1, mCol + 2},
+        {mRow + 2, mCol + 1},
+        {mRow + 2, mCol - 1},
+        {mRow + 1, mCol - 2},
+        {mRow - 1, mCol - 2},
+        {mRow - 2, mCol - 1}
     };
 
 
@@ -37,7 +36,7 @@ std::vector<std::vector<int>> Knight::getLegalMoves()
         if(isInRange(row, col))
         {
             // Make sure that there is either no piece, or that the piece is opponent's
-            if((*mTiles)[row][col].getContainedPiece() == nullptr || (*mTiles)[row][col].getContainedPiece()->getColor() != this->mColor)
+            if((*mTiles)[row][col].getContainedPiece() == nullptr || (*mTiles)[row][col].getContainedPiece()->getColor() != mColor)
             {
                 legalMoves.push_back(possibleMoves[iMoveType]);
             }

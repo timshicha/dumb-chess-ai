@@ -72,6 +72,8 @@ class Rook : public Piece
     bool nextMove() override;
     int getValue() const;
     std::string getName() const override;
+    // Returns a vector of coordinates where the rook can move.
+    std::vector<std::vector<int>> getLegalMoves();
 
   private:
     int mValue = 5;
