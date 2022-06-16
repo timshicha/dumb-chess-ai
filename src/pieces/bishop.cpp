@@ -1,6 +1,7 @@
 #pragma once
 #include "pieces.h"
 
+
 //Returns true until a complete cycle of patterns has been complete
 bool Bishop::peekNextPossibleMove() 
 {
@@ -113,13 +114,6 @@ bool Bishop::peekNextPossibleMove()
     throw(std::runtime_error{ "Error: Undefined behavior, no move sequence active\n" });
 }
 
-int Bishop::getValue() const
-{
-    // May do some calculations to get an adjusted piece value
-    return mValue;
-}
+int Bishop::getValue() const { return mValue; }
 
-std::string Bishop::getName() const
-{
-    return "Bishop";
-}
+std::string Bishop::getName() const { return "Bishop"; }

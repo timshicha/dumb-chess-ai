@@ -45,16 +45,10 @@ std::vector<std::vector<int>> Knight::getLegalMoves()
     return legalMoves;
 }
 
+
 bool Knight::peekNextPossibleMove() { return false; }
 
 
-int Knight::getValue() const
-{
-    // May do some calculations to get an adjusted piece value
-    return mValue;
-}
+int Knight::getValue() const { return mValue; }
 
-std::string Knight::getName() const
-{
-    return "Knight";
-}
+std::string Knight::getName() const { return "Knight"; }

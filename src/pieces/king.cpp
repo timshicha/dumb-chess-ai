@@ -7,11 +7,8 @@ bool King::peekNextPossibleMove() { return false; }
 
 int King::getValue() const
 {
-    // King's value is infinite (return max <int> value)
-    return std::numeric_limits<int>::max();
+    // King does not have an exchangeable value
+    return 0;
 }
 
-std::string King::getName() const
-{
-    return "King  ";
-}
+std::string King::getName() const { return "King  "; }
