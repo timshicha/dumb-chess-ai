@@ -146,4 +146,16 @@ void ChessBoard::test()
             std::cout << this->get_board_as_string() << "\n\n";
         }
     }
+
+    
+    // Testing Knight's possibleLandings() function...
+    /*
+    Knight* a = static_cast<Knight*> ((mTiles[7][1]).getContainedPiece());
+    std::vector<std::vector<int>> b = a->possibleLandings();
+    std::cout << "The knight at row 7 column 1 can move to the following positions:" << std::endl;
+    for (int i = 0; i < b.size(); i++)
+    {
+        std::cout << b[i][0] << " " << b[i][1] << std::endl;
+    }
+    */   
 }
