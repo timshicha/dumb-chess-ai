@@ -23,20 +23,22 @@ std::vector<std::pair<int, int>> Knight::getLegalMoves() const
     // Holds the list of coords the knight can play that are on the board.
    std::vector<std::pair<int, int>> legalMoves;
 
-    int col = 0;
-    int row = 0;
+    int newRow = 0;
+    int newCol = 0;
+
     // For each knight move
     for (auto& iMovePattern : allMovePatterns)
     {
         // Store the row and column so we don't have to keep accessing the vector
         // (and for clarity's sake)
-        row = iMovePattern.first;
-        col = iMovePattern.second;
+        newRow = iMovePattern.first;
+        newCol = iMovePattern.second;
         // If the landing is on the board
-        if(isInRange(row, col))
+        if(isInRange(newRow, newCol))
         {
             // Make sure that there is either no piece, or that the piece is opponent's
-            if((*mTiles)[row][col].getContainedPiece() == nullptr || (*mTiles)[row][col].getContainedPiece()->getColor() != mColor)
+            Tile* targetTile = &((*mTiles)[newRow][newCol]);
+            if(targetTile->getContainedPiece() == nullptr || targetTile->getContainedPiece()->getColor() != mColor)
             {
                 legalMoves.push_back(iMovePattern);
             }

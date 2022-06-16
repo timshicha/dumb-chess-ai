@@ -41,6 +41,9 @@ class Bishop : public Piece
 
     virtual ~Bishop() = default;
 
+    // Returns a vector of coordinates where the knight can move.
+    std::vector<std::pair<int, int>> getLegalMoves() const;
+
     bool peekNextPossibleMove() override;
     int getValue() const override;
     std::string getName() const override;

@@ -2,6 +2,103 @@
 #include "pieces.h"
 
 
+std::vector<std::pair<int, int>> Bishop::getLegalMoves() const
+{
+    // Holds the list of coords the Bishop can play that are on the board.
+    std::vector<std::pair<int, int>> legalMoves;
+
+    int newRow, newCol;
+
+    // Record legal moves up-left (until off the board)
+    for (newRow = mRow - 1, newCol = mCol - 1; isInRange(newRow, newCol) == true; --newRow, --newCol)
+    {
+        // If no piece, add move to list
+        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
+        {
+            legalMoves.push_back({newRow, newCol});
+        }
+        // If there is a piece and it belongs to enemy, record it as a legal
+        // move and stop moving farther up.
+        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
+        {
+            legalMoves.push_back({newRow, newCol});
+            break;
+        }
+        // Otherwise it's our own piece. Stop moving.
+        else
+        {
+            break;
+        }
+    }
+
+    // Record legal up-right (until off the board)
+    for (newRow = mRow - 1, newCol = mCol + 1; isInRange(newRow, newCol) == true; --newRow, ++newCol)
+    {
+        // If no piece, add move to list
+        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
+        {
+            legalMoves.push_back({newRow, newCol});
+        }
+        // If there is a piece and it belongs to enemy, record it as a legal
+        // move and stop moving farther up.
+        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
+        {
+            legalMoves.push_back({newRow, newCol});
+            break;
+        }
+        // Otherwise it's our own piece. Stop moving.
+        else
+        {
+            break;
+        }
+    }
+
+    // Record legal moves down-right (until off the board)
+    for (newRow = mRow + 1, newCol = mCol + 1; isInRange(newRow, newCol) == true; ++newRow, ++newCol)
+    {
+        // If no piece, add move to list
+        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
+        {
+            legalMoves.push_back({newRow, newCol});
+        }
+        // If there is a piece and it belongs to enemy, record it as a legal
+        // move and stop moving farther up.
+        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
+        {
+            legalMoves.push_back({newRow, newCol});
+            break;
+        }
+        // Otherwise it's our own piece. Stop moving.
+        else
+        {
+            break;
+        }
+    }
+
+    // Record legal moves down-left (until off the board)
+    for (newRow = mRow + 1, newCol = mCol - 1; isInRange(newRow, newCol) == true; ++newRow, --newCol)
+    {
+        // If no piece, add move to list
+        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
+        {
+            legalMoves.push_back({newRow, newCol});
+        }
+        // If there is a piece and it belongs to enemy, record it as a legal
+        // move and stop moving farther up.
+        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
+        {
+            legalMoves.push_back({newRow, newCol});
+            break;
+        }
+        // Otherwise it's our own piece. Stop moving.
+        else
+        {
+            break;
+        }
+    }
+    return legalMoves;
+}
+
 //Returns true until a complete cycle of patterns has been complete
 bool Bishop::peekNextPossibleMove() 
 {

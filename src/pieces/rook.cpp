@@ -6,25 +6,25 @@
 // Does not exclude moves where the rook puts own king in check.
 std::vector<std::pair<int, int>> Rook::getLegalMoves() const
 {
-    // Holds the list of coords the knight can play that are on the board.
+    // Holds the list of coords the Rook can play that are on the board.
     std::vector<std::pair<int, int>> legalMoves;
 
-    int row, col;
+    int newRow, newCol;
 
     // Record legal moves up (until off the board)
-    col = mCol;
-    for (row = mRow - 1; row >= 0; row--)
+    newCol = mCol;
+    for (newRow = mRow - 1; isInRange(newRow, newCol) == true; ++newRow)
     {
         // If no piece, add move to list
-        if((*mTiles)[row][col].getContainedPiece() == nullptr)
+        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
         {
-            legalMoves.push_back({row, col});
+            legalMoves.push_back({newRow, newCol});
         }
         // If there is a piece and it belongs to enemy, record it as a legal
         // move and stop moving farther up.
-        else if((*mTiles)[row][col].getContainedPiece()->getColor() != mColor)
+        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
         {
-            legalMoves.push_back({row, col});
+            legalMoves.push_back({newRow, newCol});
             break;
         }
         // Otherwise it's our own piece. Stop moving.
@@ -35,19 +35,19 @@ std::vector<std::pair<int, int>> Rook::getLegalMoves() const
     }
 
     // Record legal moves down (until off the board)
-    col = mCol;
-    for (row = mRow + 1; row < 8; row++)
+    newCol = mCol;
+    for (newRow = mRow + 1; isInRange(newRow, newCol) == true; ++newRow)
     {
         // If no piece, add move to list
-        if((*mTiles)[row][col].getContainedPiece() == nullptr)
+        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
         {
-            legalMoves.push_back({row, col});
+            legalMoves.push_back({newRow, newCol});
         }
         // If there is a piece and it belongs to enemy, record it as a legal
-        // move and stop moving farther down.
-        else if((*mTiles)[row][col].getContainedPiece()->getColor() != mColor)
+        // move and stop moving farther up.
+        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
         {
-            legalMoves.push_back({row, col});
+            legalMoves.push_back({newRow, newCol});
             break;
         }
         // Otherwise it's our own piece. Stop moving.
@@ -58,19 +58,19 @@ std::vector<std::pair<int, int>> Rook::getLegalMoves() const
     }
 
     // Record legal moves right (until off the board)
-    row = mRow;
-    for (col = mCol + 1; col < 8; col++)
+    newRow = mRow;
+    for (newCol = mCol + 1; isInRange(newRow, newCol) == true; ++newCol)
     {
         // If no piece, add move to list
-        if((*mTiles)[row][col].getContainedPiece() == nullptr)
+        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
         {
-            legalMoves.push_back({row, col});
+            legalMoves.push_back({newRow, newCol});
         }
         // If there is a piece and it belongs to enemy, record it as a legal
-        // move and stop moving farther right.
-        else if((*mTiles)[row][col].getContainedPiece()->getColor() != mColor)
+        // move and stop moving farther up.
+        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
         {
-            legalMoves.push_back({row, col});
+            legalMoves.push_back({newRow, newCol});
             break;
         }
         // Otherwise it's our own piece. Stop moving.
@@ -81,19 +81,19 @@ std::vector<std::pair<int, int>> Rook::getLegalMoves() const
     }
 
     // Record legal moves left (until off the board)
-    row = mRow;
-    for (col = mCol - 1; col >= 0; col--)
-    {
+    newRow = mRow;
+    for (newCol = mCol - 1; isInRange(newRow, newCol) == true; --newCol)
+   {
         // If no piece, add move to list
-        if((*mTiles)[row][col].getContainedPiece() == nullptr)
+        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
         {
-            legalMoves.push_back({row, col});
+            legalMoves.push_back({newRow, newCol});
         }
         // If there is a piece and it belongs to enemy, record it as a legal
-        // move and stop moving farther left.
-        else if((*mTiles)[row][col].getContainedPiece()->getColor() != mColor)
+        // move and stop moving farther up.
+        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
         {
-            legalMoves.push_back({row, col});
+            legalMoves.push_back({newRow, newCol});
             break;
         }
         // Otherwise it's our own piece. Stop moving.

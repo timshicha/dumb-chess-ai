@@ -84,14 +84,14 @@ ChessBoard::ChessBoard(const char* filename)
         while (std::getline(file, line))
         {
             int col = 0;
-            for (int i = 0; i < line.length(); i++)
+            for (int i = 0; i < line.length(); ++i)
             {
                 // If we reached the end (eof)
                 if(line[i] == 13) break;
-                if(line[i] == ','){col++; continue;}
+                if(line[i] == ','){++col; continue;}
                 board[row][col] += line[i];
             }
-            row++;
+            ++row;
         }
     }
     file.close();
@@ -106,7 +106,7 @@ ChessBoard::ChessBoard(const char* filename)
                 iTile.setTile(Color::WHITE);
             else
                 iTile.setTile(Color::BLACK);
-            count++;
+            ++count;
         }
     }
 
@@ -126,9 +126,9 @@ ChessBoard::ChessBoard(const char* filename)
    int whitePieceCount = 0;
    int blackPieceCount = 0;
     // Find the kings (they should be the first element in list)
-    for(int iBoardRow = 0; iBoardRow < 8; iBoardRow++)
+    for(int iBoardRow = 0; iBoardRow < 8; ++iBoardRow)
     {
-        for(int iBoardCol = 0; iBoardCol < 8; iBoardCol++)
+        for(int iBoardCol = 0; iBoardCol < 8; ++iBoardCol)
         {
             if(board[iBoardRow][iBoardCol] == "wKing")
             {
@@ -144,9 +144,9 @@ ChessBoard::ChessBoard(const char* filename)
     }
 
     // Now for all other pieces, add them anywhere in array
-    for(int iBoardRow = 0; iBoardRow < 8; iBoardRow++)
+    for(int iBoardRow = 0; iBoardRow < 8; ++iBoardRow)
     {
-        for(int iBoardCol = 0; iBoardCol < 8; iBoardCol++)
+        for(int iBoardCol = 0; iBoardCol < 8; ++iBoardCol)
         {
             std::string word = board[iBoardRow][iBoardCol];
 
@@ -175,10 +175,10 @@ ChessBoard::ChessBoard(const char* filename)
     }
 
     // Fill in the rest with blanks
-    for (int i = whitePieceCount; i < 16; i++)
+    for (int i = whitePieceCount; i < 16; ++i)
         mWhitePieces[i].reset(nullptr);
 
-    for (int i = blackPieceCount; i < 16; i++)
+    for (int i = blackPieceCount; i < 16; ++i)
         mBlackPieces[i].reset(nullptr);
 }
 
@@ -191,24 +191,24 @@ std::string ChessBoard::get_board_as_string()
 
     // Display top labels
     string result = "   ";
-    for (int i = 0; i < 8; i++) // Each column gets a number
+    for (int i = 0; i < 8; ++i) // Each column gets a number
         result += "   |  " + to_string(i);
     result += "\n";
 
     // For nice format
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 8; ++i)
         result += "      |";
     result += "\n------+------+------+------+------+------+------+------+------\n";
 
     // Display each row
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 8; ++i)
     {
         // Left-most column just holds the row number
         result += "  " + to_string(i) + "   |";
 
         // For each column, see if there's a piece. If so, display color.
         // This is the top row of each tile
-        for (int j = 0; j < 8; j++)
+        for (int j = 0; j < 8; ++j)
         {
             // If there's a piece
             if(mTiles[i][j].getContainedPiece() != nullptr)
@@ -229,7 +229,7 @@ std::string ChessBoard::get_board_as_string()
         result += "\n      |";
         // For each column, see if there's a piece. If so, display piece type.
         // This is the bottom row of each tile
-        for (int j = 0; j < 8; j++)
+        for (int j = 0; j < 8; ++j)
         {
             // If there's a piece, display the piece
             if(mTiles[i][j].getContainedPiece() != nullptr)
