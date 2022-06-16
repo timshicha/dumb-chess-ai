@@ -9,14 +9,16 @@ void Tile::setTile(Color color)
 
 void Tile::setContainedPiece(Piece* containedPiece)
 {
+    //If placing a new piece, make sure that the tile is empty
+    if (containedPiece != nullptr && mContainedPiece != nullptr)
+        throw(std::runtime_error{ "Error: Attempted to place piece on an occupied tile\n" });
+
+    //Place the peice on the tile
     mContainedPiece = containedPiece;
 }
 
 
-Piece* Tile::getContainedPiece()
-{
-    return mContainedPiece;
-}
+Piece* Tile::getContainedPiece(){return mContainedPiece;}
 
 
 //Initialize Piece's statics
@@ -31,7 +33,7 @@ Piece::Piece(Color color, int row, int col, tilesPtr tiles) : mColor{ color }, m
 }
 
 
-void Piece::kill()
+void Piece::tempKill()
 {
     mAlive = false;
     //Remove piece from its tile
@@ -39,7 +41,7 @@ void Piece::kill()
 }
 
 
-void Piece::unKill()
+void Piece::undoTempKill()
 {
     mAlive = true;
     //Place the piece back on its tile
@@ -57,7 +59,7 @@ bool Piece::isInRange(int row, int col)
 
 
 //Returns true on successful move and false if provided indices are unavailable 
-bool Piece::move(int newRow, int newCol)
+bool Piece::tempMove(int newRow, int newCol)
 {
     //If a piece has been moved already, throw error
     //Only 1 move can occur at a time
@@ -77,10 +79,10 @@ bool Piece::move(int newRow, int newCol)
         //Different colored piece
         if (currentOccupier->getColor() != mColor)
         {
-            //Remember the piece that is being killed
-            mKilledPiece = currentOccupier;
-            //Kill that piece
-            mKilledPiece->kill();
+            //Remember the piece that is being killed (by this piece)
+            mTempKilledPiece = currentOccupier;
+            //Kill the piece
+            mTempKilledPiece->tempKill();
         }
         //Same colored piece, unable to move there
         else
@@ -107,7 +109,7 @@ bool Piece::move(int newRow, int newCol)
 }
 
 
-void Piece::undoMove()
+void Piece::undoTempMove()
 {
     //Make sure that there is a move to undo
     if (HAS_MOVED == false)
@@ -129,14 +131,14 @@ void Piece::undoMove()
     mRow = mAnchorRow;
     mCol = mAnchorCol;
 
-    //If a piece was killed during the previous move, unkill it
-    if (mKilledPiece != nullptr)
+    //If a piece was killed during this objects previous move, unkill it
+    if (mTempKilledPiece != nullptr)
     {
-        mKilledPiece->unKill();
-        mKilledPiece = nullptr;
+        mTempKilledPiece->undoTempKill();
+        mTempKilledPiece = nullptr;
     }
 
-    //Indicate that a move has been undone
+    //Indicate (to all pieces) that a move has been undone
     HAS_MOVED = false;
     MOVED_PIECE = nullptr;
 }

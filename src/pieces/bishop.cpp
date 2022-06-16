@@ -2,16 +2,16 @@
 #include "pieces.h"
 
 //Returns true until a complete cycle of patterns has been complete
-bool Bishop::nextMove() 
+bool Bishop::peekNextPossibleMove() 
 {
     int startingOrlastTriedRow;
     int startingOrlastTriedCol;
 
     //If a piece was killed last move, the sequence has changed
     //Undo the last move and then start from the pieces original position
-    if (mKilledPiece != nullptr)
+    if (mTempKilledPiece != nullptr)
     {
-        undoMove();
+        undoTempMove();
         startingOrlastTriedRow = mRow;
         startingOrlastTriedCol = mCol;
     }
@@ -20,14 +20,14 @@ bool Bishop::nextMove()
     {
         startingOrlastTriedRow = mRow;
         startingOrlastTriedCol = mCol;
-        undoMove(); //Does nothing if this is the first move
+        undoTempMove(); //Does nothing if this is the first move
     }
     
     //The sequences turn each other on and off in a cycle (clockwise)
     //up-left -> up-right -> down-right -> down-left
     
     //If all of the moves have been done already
-    if (completedCycle == true)
+    if (mCompletedCycle == true)
         return false;
 
     //Up-left
@@ -39,7 +39,7 @@ bool Bishop::nextMove()
         
         //If piece failed to move, switch patterns
         //If piece moved but killed a piece to do so, switch patterns
-        if (move(startingOrlastTriedRow, startingOrlastTriedCol) == false || mKilledPiece != nullptr)
+        if (tempMove(startingOrlastTriedRow, startingOrlastTriedCol) == false || mTempKilledPiece != nullptr)
         {
             //Move on to next pattern
             mUpLeftSequence = false;
@@ -48,7 +48,8 @@ bool Bishop::nextMove()
             startingOrlastTriedRow = mRow;
             startingOrlastTriedCol = mCol;
         }
-        //Move on to the next pattern if no move occured
+        //If a move occured, return true
+        //Otherwise, switch to the next pattern
         if (HAS_MOVED == true)
             return true;
     }
@@ -58,7 +59,7 @@ bool Bishop::nextMove()
         --startingOrlastTriedRow;
         ++startingOrlastTriedCol;
 
-        if (move(startingOrlastTriedRow, startingOrlastTriedCol) == false || mKilledPiece != nullptr)
+        if (tempMove(startingOrlastTriedRow, startingOrlastTriedCol) == false || mTempKilledPiece != nullptr)
         {
             mUpRightSequence = false;
             mDownRightSequence = true;
@@ -74,7 +75,7 @@ bool Bishop::nextMove()
         ++startingOrlastTriedRow;
         ++startingOrlastTriedCol;
 
-        if (move(startingOrlastTriedRow, startingOrlastTriedCol) == false || mKilledPiece != nullptr)
+        if (tempMove(startingOrlastTriedRow, startingOrlastTriedCol) == false || mTempKilledPiece != nullptr)
         {
             mDownRightSequence = false;
             mDownLeftSequence = true;
@@ -90,21 +91,21 @@ bool Bishop::nextMove()
         ++startingOrlastTriedRow;
         --startingOrlastTriedCol;
 
-        if (move(startingOrlastTriedRow, startingOrlastTriedCol) == false || mKilledPiece != nullptr)
+        if (tempMove(startingOrlastTriedRow, startingOrlastTriedCol) == false || mTempKilledPiece != nullptr)
         {
             mDownLeftSequence = false;
             mUpLeftSequence = true;
             startingOrlastTriedRow = mRow;
             startingOrlastTriedCol = mCol;
             //This is the last movement pattern, switching sequences means a finished cycle
-            completedCycle = true;
+            mCompletedCycle = true;
         }
         if (HAS_MOVED == true)
             return true;
         //If the move failed, all posible moves have been tried
         else
         {
-            completedCycle = false;
+            mCompletedCycle = false;
             return false;
         }
     }

@@ -141,7 +141,7 @@ void ChessBoard::test()
     for (int i = 0; i < 8; ++i)
     {
         Piece* temp = mBlackPieces[i].get();
-        while (temp->nextMove() == true) 
+        while (temp->peekNextPossibleMove() == true) 
         {
             std::cout << this->get_board_as_string() << "\n\n";
         }

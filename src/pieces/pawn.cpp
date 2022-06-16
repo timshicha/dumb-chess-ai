@@ -2,7 +2,7 @@
 #include "pieces.h"
 
 
-bool Pawn::nextMove() { return false; }
+bool Pawn::peekNextPossibleMove() { return false; }
 
 int Pawn::getValue() const
 {

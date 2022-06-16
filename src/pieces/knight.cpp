@@ -46,7 +46,7 @@ std::vector<std::vector<int>> Knight::getLegalMoves()
     return legalMoves;
 }
 
-bool Knight::nextMove() { return false; }
+bool Knight::peekNextPossibleMove() { return false; }
 
 
 int Knight::getValue() const

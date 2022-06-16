@@ -12,7 +12,7 @@ class Pawn : public Piece
 
     virtual ~Pawn() = default;
 
-    bool nextMove() override;
+    bool peekNextPossibleMove() override;
     int getValue() const;
     std::string getName() const override;
 
@@ -30,7 +30,7 @@ class Knight : public Piece
 
     // Returns a vector of coordinates where the knight can move.
     std::vector<std::vector<int>> getLegalMoves();
-    bool nextMove() override;
+    bool peekNextPossibleMove() override;
     int getValue() const;
     std::string getName() const override;
 
@@ -46,7 +46,7 @@ class Bishop : public Piece
 
     virtual ~Bishop() = default;
 
-    bool nextMove() override;
+    bool peekNextPossibleMove() override;
     int getValue() const;
     std::string getName() const override;
 
@@ -58,7 +58,7 @@ class Bishop : public Piece
     bool mDownRightSequence = false;
     bool mDownLeftSequence = false;
     //Indicates whether all moves have been tried
-    bool completedCycle = false;
+    bool mCompletedCycle = false;
 };
 
 
@@ -69,7 +69,7 @@ class Rook : public Piece
 
     virtual ~Rook() = default;
 
-    bool nextMove() override;
+    bool peekNextPossibleMove() override;
     int getValue() const;
     std::string getName() const override;
 
@@ -85,7 +85,7 @@ class Queen : public Piece
 
     virtual ~Queen() = default;
 
-    bool nextMove() override;
+    bool peekNextPossibleMove() override;
     int getValue() const;
     std::string getName() const override;
 
@@ -101,7 +101,7 @@ class King : public Piece
 
     virtual ~King() = default;
 
-    bool nextMove() override;
+    bool peekNextPossibleMove() override;
     int getValue() const;
     std::string getName() const override;
 };

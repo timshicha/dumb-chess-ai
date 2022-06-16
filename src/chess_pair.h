@@ -33,10 +33,10 @@ public:
 
     virtual ~Piece() = default;
 
-    //Advance to the next permutation
-    virtual bool nextMove() = 0;
+    //Cycle through possible moves the piece could make
+    //Must cycle through all moves
+    virtual bool peekNextPossibleMove() = 0;
 
-    //Temporary location for thing, not sure where to put it
     //Checks if the provided row and column are on the board
     bool isInRange(int row, int col);
 
@@ -49,19 +49,18 @@ public:
     virtual std::string getName() const = 0;
 
 protected:
-    //Methods below work together to simulate a moving piece
-    void kill();
-    void unKill();
+    //Methods below work together to temporarily move one piece
+    void tempKill();
+    void undoTempKill();
     //Returns true on successful move and false if provided indices are unavailable
-    //Throws exception is moves are attempted in succession
-    bool move(int newRow, int newCol);
+    //Throws exception if moves are attempted in succession
+    bool tempMove(int newRow, int newCol);
     //Unmakes a move, does noting if no move was made
-    void undoMove();
-
+    void undoTempMove();
     //Reference the piece that this object killed
-    Piece* mKilledPiece = nullptr;
+    Piece* mTempKilledPiece = nullptr;
     //Remember this object's position when the turn started (before first move)
-    //Should only be used by move() and unMove()
+    //Should only be used by tempMove() and undoTempMove()
     int mAnchorRow = -1;
     int mAnchorCol = -1;
     

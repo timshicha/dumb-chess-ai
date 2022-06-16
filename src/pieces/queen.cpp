@@ -2,7 +2,7 @@
 #include "pieces.h"
 
 
-bool Queen::nextMove() { return false; }
+bool Queen::peekNextPossibleMove() { return false; }
 
 
 int Queen::getValue() const
