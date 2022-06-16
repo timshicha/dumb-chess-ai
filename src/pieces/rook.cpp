@@ -2,9 +2,6 @@
 #include "pieces.h"
 
 
-<<<<<<< HEAD
-bool Rook::peekNextPossibleMove() { return false; }
-=======
 // Returns a vector of coordinates where the rook can move.
 // Does not exclude moves where the rook puts own king in check.
 std::vector<std::vector<int>> Rook::getLegalMoves()
@@ -108,8 +105,7 @@ std::vector<std::vector<int>> Rook::getLegalMoves()
     return legalMoves;
 }
 
-bool Rook::nextMove() { return false; }
->>>>>>> 6794110cc18f0a1c29122f640d006561cf52fcf3
+bool Rook::peekNextPossibleMove() { return false; }
 
 
 int Rook::getValue() const
