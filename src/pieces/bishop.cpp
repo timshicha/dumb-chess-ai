@@ -12,6 +12,7 @@ std::vector<std::pair<int, int>> Bishop::getLegalMoves() const
     for (auto& iDirection : directions)
     {
         int newRow, newCol;
+        // Keep moving in that direction until can't move any farther
         for (newRow = mRow + iDirection.first, newCol = mCol + iDirection.second;
             isInRange(newRow, newCol) == true; newRow += iDirection.first, newCol += iDirection.second)
         {
