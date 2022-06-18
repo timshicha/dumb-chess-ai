@@ -45,6 +45,7 @@ public:
     int getCol() const;
     bool isAlive() const;
     virtual int getValue() const = 0;
+    virtual std::vector<std::pair<int, int>> getLegalMoves() const = 0;
 
     // Get the name of the piece (for display purposes)
     virtual std::string getName() const = 0;
