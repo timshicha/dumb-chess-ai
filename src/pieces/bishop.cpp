@@ -6,94 +6,32 @@ std::vector<std::pair<int, int>> Bishop::getLegalMoves() const
 {
     // Holds the list of coords the Bishop can play that are on the board.
     std::vector<std::pair<int, int>> legalMoves;
+    std::vector<std::pair<int, int>> directions = {{-1,1},{1,1},{1,-1},{-1,-1}};
 
-    int newRow, newCol;
-
-    // Record legal moves up-left (until off the board)
-    for (newRow = mRow - 1, newCol = mCol - 1; isInRange(newRow, newCol) == true; --newRow, --newCol)
+    // For each direction
+    for (auto& iDirection : directions)
     {
-        // If no piece, add move to list
-        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
+        int newRow, newCol;
+        for (newRow = mRow + iDirection.first, newCol = mCol + iDirection.second;
+            isInRange(newRow, newCol) == true; newRow += iDirection.first, newCol += iDirection.second)
         {
-            legalMoves.push_back({newRow, newCol});
-        }
-        // If there is a piece and it belongs to enemy, record it as a legal
-        // move and stop moving farther up.
-        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
-        {
-            legalMoves.push_back({newRow, newCol});
-            break;
-        }
-        // Otherwise it's our own piece. Stop moving.
-        else
-        {
-            break;
-        }
-    }
-
-    // Record legal up-right (until off the board)
-    for (newRow = mRow - 1, newCol = mCol + 1; isInRange(newRow, newCol) == true; --newRow, ++newCol)
-    {
-        // If no piece, add move to list
-        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
-        {
-            legalMoves.push_back({newRow, newCol});
-        }
-        // If there is a piece and it belongs to enemy, record it as a legal
-        // move and stop moving farther up.
-        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
-        {
-            legalMoves.push_back({newRow, newCol});
-            break;
-        }
-        // Otherwise it's our own piece. Stop moving.
-        else
-        {
-            break;
-        }
-    }
-
-    // Record legal moves down-right (until off the board)
-    for (newRow = mRow + 1, newCol = mCol + 1; isInRange(newRow, newCol) == true; ++newRow, ++newCol)
-    {
-        // If no piece, add move to list
-        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
-        {
-            legalMoves.push_back({newRow, newCol});
-        }
-        // If there is a piece and it belongs to enemy, record it as a legal
-        // move and stop moving farther up.
-        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
-        {
-            legalMoves.push_back({newRow, newCol});
-            break;
-        }
-        // Otherwise it's our own piece. Stop moving.
-        else
-        {
-            break;
-        }
-    }
-
-    // Record legal moves down-left (until off the board)
-    for (newRow = mRow + 1, newCol = mCol - 1; isInRange(newRow, newCol) == true; ++newRow, --newCol)
-    {
-        // If no piece, add move to list
-        if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
-        {
-            legalMoves.push_back({newRow, newCol});
-        }
-        // If there is a piece and it belongs to enemy, record it as a legal
-        // move and stop moving farther up.
-        else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
-        {
-            legalMoves.push_back({newRow, newCol});
-            break;
-        }
-        // Otherwise it's our own piece. Stop moving.
-        else
-        {
-            break;
+            // If no piece, add move to list
+            if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr)
+            {
+                legalMoves.push_back({newRow, newCol});
+            }
+            // If there is a piece and it belongs to enemy, record it as a legal
+            // move and stop moving farther in that direction.
+            else if((*mTiles)[newRow][newCol].getContainedPiece()->getColor() != mColor)
+            {
+                legalMoves.push_back({newRow, newCol});
+                break;
+            }
+            // Otherwise it's our own piece. Stop moving.
+            else
+            {
+                break;
+            }
         }
     }
     return legalMoves;
