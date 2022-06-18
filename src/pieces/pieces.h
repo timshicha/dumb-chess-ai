@@ -99,5 +99,6 @@ class King : public Piece
     bool peekNextPossibleMove() override;
     int getValue() const override;
     std::string getName() const override;
+    std::vector<std::pair<int, int>> getLegalMoves() const;
 };
 
