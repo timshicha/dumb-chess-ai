@@ -32,24 +32,21 @@ Piece::Piece(int value, Color color, int row, int col, tilesPtr tiles) : mValue{
     (*mTiles)[mRow][mCol].setContainedPiece(this);
 }
 
-
-void Piece::tempKill()
+void Piece::kill()
 {
     mAlive = false;
-    //Remove piece from its tile
+    // Remove piece from its tile
     (*mTiles)[mRow][mCol].setContainedPiece(nullptr);
 }
 
-
-void Piece::undoTempKill()
+void Piece::undoKill()
 {
     mAlive = true;
     //Place the piece back on its tile
     (*mTiles)[mRow][mCol].setContainedPiece(this);
 }
 
-
-bool Piece::isInRange(int row, int col) const
+bool Piece::isInRange(int row, int col)
 {
     if (row > 7 || row < 0 || col > 7 || col < 0)
         return false;
@@ -57,6 +54,16 @@ bool Piece::isInRange(int row, int col) const
         return true;
 }
 
+void Piece::setPosition(int row, int col)
+{
+    mRow = row;
+    mCol = col;
+}
+
+void Piece::setMoved(bool moved)
+{
+    this->moved = moved;
+}
 
 //Returns true on successful move and false if provided indices are unavailable 
 bool Piece::tempMove(int newRow, int newCol)
@@ -82,7 +89,7 @@ bool Piece::tempMove(int newRow, int newCol)
             //Remember the piece that is being killed (by this piece)
             mTempKilledPiece = currentOccupier;
             //Kill the piece
-            mTempKilledPiece->tempKill();
+            mTempKilledPiece->kill();
         }
         //Same colored piece, unable to move there
         else
@@ -134,7 +141,7 @@ void Piece::undoTempMove()
     //If a piece was killed during this objects previous move, unkill it
     if (mTempKilledPiece != nullptr)
     {
-        mTempKilledPiece->undoTempKill();
+        mTempKilledPiece->undoKill();
         mTempKilledPiece = nullptr;
     }
 

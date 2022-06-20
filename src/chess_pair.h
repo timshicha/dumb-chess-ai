@@ -28,7 +28,7 @@ using tilesPtr = Tile(*)[8][8];
 
 class Piece
 {
-public:
+  public:
     Piece(int value, Color color, int row, int col, tilesPtr tiles);
 
     virtual ~Piece() = default;
@@ -38,7 +38,7 @@ public:
     virtual bool peekNextPossibleMove() = 0;
 
     //Checks if the provided row and column are on the board
-    bool isInRange(int row, int col) const;
+    static bool isInRange(int row, int col);
 
     Color getColor() const;
     int getRow() const;
@@ -49,11 +49,16 @@ public:
 
     // Get the name of the piece (for display purposes)
     virtual std::string getName() const = 0;
+    void kill();
+    void undoKill();
+    void setMoved(bool moved=true);
 
-protected:
+    void setPosition(int row, int col);
+
+  protected:
     //Methods below work together to temporarily move one piece
-    void tempKill();
-    void undoTempKill();
+    //void tempKill();
+    //void undoTempKill();
     //Returns true on successful move and false if provided indices are unavailable
     //Throws exception if moves are attempted in succession
     bool tempMove(int newRow, int newCol);
@@ -75,6 +80,7 @@ protected:
     Color mColor;  
     int mRow, mCol; //The position indices of the piece
     bool mAlive = true; //(always vaild, even if piece is not alive)
+    bool moved = false; // keep track of whether the piece moved (for castling)
 
     //Reference to the ChessBoards's tiles
     tilesPtr mTiles;
