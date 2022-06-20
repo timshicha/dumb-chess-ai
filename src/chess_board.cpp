@@ -35,38 +35,37 @@ ChessBoard::ChessBoard()
     int blackPieceCount = 0;
 
     //Add kings
-    mWhiteKing = new King{Color::WHITE, 0, 3, &mTiles};
-    mBlackKing = new King{Color::BLACK, 7, 3, &mTiles};
+    mKings[int(Color::WHITE)].reset(new King{Color::WHITE, 0, 3, &mTiles});
+    mKings[int(Color::BLACK)].reset(new King{Color::BLACK, 7, 3, &mTiles});
 
     //Add queens
-    mWhitePieces[whitePieceCount++].reset(new Queen{Color::WHITE, 0, 4, &mTiles});
-    mBlackPieces[blackPieceCount++].reset(new Queen{Color::BLACK, 7, 4, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Queen{Color::WHITE, 0, 4, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Queen{Color::BLACK, 7, 4, &mTiles});
 
     //Add bishops
-    mWhitePieces[whitePieceCount++].reset(new Bishop{Color::WHITE, 0, 2, &mTiles});
-    mWhitePieces[whitePieceCount++].reset(new Bishop{Color::WHITE, 0, 5, &mTiles});
-    mBlackPieces[blackPieceCount++].reset(new Bishop{Color::BLACK, 7, 2, &mTiles});
-    mBlackPieces[blackPieceCount++].reset(new Bishop{Color::BLACK, 7, 5, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Bishop{Color::WHITE, 0, 2, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Bishop{Color::WHITE, 0, 5, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Bishop{Color::BLACK, 7, 2, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Bishop{Color::BLACK, 7, 5, &mTiles});
 
     //Add knights
-    mWhitePieces[whitePieceCount++].reset(new Knight{Color::WHITE, 0, 1, &mTiles});
-    mWhitePieces[whitePieceCount++].reset(new Knight{Color::WHITE, 0, 6, &mTiles});
-    mBlackPieces[blackPieceCount++].reset(new Knight{Color::BLACK, 7, 1, &mTiles});
-    mBlackPieces[blackPieceCount++].reset(new Knight{Color::BLACK, 7, 6, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Knight{Color::WHITE, 0, 1, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Knight{Color::WHITE, 0, 6, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Knight{Color::BLACK, 7, 1, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Knight{Color::BLACK, 7, 6, &mTiles});
     
     ////Add rooks
-    mWhitePieces[whitePieceCount++].reset(new Rook{Color::WHITE, 0, 0, &mTiles});
-    mWhitePieces[whitePieceCount++].reset(new Rook{Color::WHITE, 0, 7, &mTiles});
-    mBlackPieces[blackPieceCount++].reset(new Rook{Color::BLACK, 7, 0, &mTiles});
-    mBlackPieces[blackPieceCount++].reset(new Rook{Color::BLACK, 7, 7, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Rook{Color::WHITE, 0, 0, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Rook{Color::WHITE, 0, 7, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Rook{Color::BLACK, 7, 0, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Rook{Color::BLACK, 7, 7, &mTiles});
     
-    /*Don't add pawns to test bishop moves*/
     //Add pawns
-   /* for(int iCol = 0; iCol < 8; ++iCol)
+    for(int iCol = 0; iCol < 8; ++iCol)
     {
-        mWhitePieces[whitePieceCount++].reset(new Pawn{Color::WHITE, 1, iCol, &mTiles});
-        mBlackPieces[blackPieceCount++].reset(new Pawn{Color::BLACK, 6, iCol, &mTiles});        
-    }*/
+        mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Pawn{Color::WHITE, 1, iCol, &mTiles});
+        mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Pawn{Color::BLACK, 6, iCol, &mTiles});        
+    }
 }
 
 // Create a chessboard as specified in text file
@@ -134,39 +133,39 @@ ChessBoard::ChessBoard(const char* filename)
             std::string word = board[iBoardRow][iBoardCol];
 
             if(word == "wKing")
-                mWhiteKing = new King{Color::WHITE, iBoardRow, iBoardCol, &mTiles};
+                mKings[int(Color::WHITE)].reset(new King{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
             if(word == "wQueen")
-                mWhitePieces[whitePieceCount++].reset(new Queen{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Queen{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
             if(word == "wRook")
-                mWhitePieces[whitePieceCount++].reset(new Rook{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Rook{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
             if(word == "wBishop")
-                mWhitePieces[whitePieceCount++].reset(new Bishop{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Bishop{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
             if(word == "wKnight")
-                mWhitePieces[whitePieceCount++].reset(new Knight{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Knight{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
             if(word == "wPawn")
-                mWhitePieces[whitePieceCount++].reset(new Pawn{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Pawn{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
 
             if(word == "bKing")
-                mBlackKing = new King{Color::BLACK, iBoardRow, iBoardCol, &mTiles};
+                mKings[int(Color::BLACK)].reset(new King{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
             if(word == "bQueen")
-                mBlackPieces[blackPieceCount++].reset(new Queen{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Queen{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
             if(word == "bRook")
-                mBlackPieces[blackPieceCount++].reset(new Rook{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Rook{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
             if(word == "bBishop")
-                mBlackPieces[blackPieceCount++].reset(new Bishop{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Bishop{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
             if(word == "bKnight")
-                mBlackPieces[blackPieceCount++].reset(new Knight{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Knight{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
             if(word == "bPawn")
-                mBlackPieces[blackPieceCount++].reset(new Pawn{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Pawn{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
         }
     }
 
     // Fill in the rest with blanks
     for (int i = whitePieceCount; i < 15; ++i)
-        mWhitePieces[i].reset(nullptr);
+        mPieces[int(Color::WHITE)][i].reset(nullptr);
 
     for (int i = blackPieceCount; i < 15; ++i)
-        mBlackPieces[i].reset(nullptr);
+        mPieces[int(Color::BLACK)][i].reset(nullptr);
 }
 
 
@@ -240,7 +239,7 @@ void ChessBoard::test()
 {
     for (int i = 0; i < 8; ++i)
     {
-        Piece* temp = mBlackPieces[i].get();
+        Piece* temp = mPieces[int(Color::BLACK)][i].get();
         while (temp->peekNextPossibleMove() == true) 
         {
             std::cout << this->get_board_as_string() << "\n\n";
