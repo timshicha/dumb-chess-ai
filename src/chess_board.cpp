@@ -250,7 +250,8 @@ void ChessBoard::test()
 
 bool ChessBoard::isInCheck(Color kingColor) const
 {
-    bool inCheck = false;
+    // Get the king's position
+    std::pair<int,int> kingPosition = {mKings[int(kingColor)]->getRow(), mKings[int(kingColor)]->getCol()};
 
     // May be more efficient to use an int instead of type-casting every time,
     // but for clarity, we will leave that decision until later.
@@ -263,8 +264,16 @@ bool ChessBoard::isInCheck(Color kingColor) const
     // Iterate through each enemy piece and see if it attacks the king
     for (int i = 0; i < MAX_PIECE_COUNT; ++i)
     {
+        Piece* currentPiece = mPieces[int(enemyColor)][i].get();
 
+        // If the piece is alive, it's a potential attacker
+        if(currentPiece != nullptr && currentPiece->isAlive())
+        {
+            // If the piece attacks the king, the king is in check
+            if(pairInVector(currentPiece->getLegalMoves(), kingPosition))
+                return true;
+        }
     }
-
+    // If none of the pieces attack the king, he is not in check
     return false;
 }
