@@ -35,36 +35,36 @@ ChessBoard::ChessBoard()
     int blackPieceCount = 0;
 
     //Add kings
-    mKings[int(Color::WHITE)].reset(new King{Color::WHITE, 0, 3, &mTiles});
-    mKings[int(Color::BLACK)].reset(new King{Color::BLACK, 7, 3, &mTiles});
+    mKings[int(Color::WHITE)].reset(new King{Color::WHITE, 7, 3, &mTiles});
+    mKings[int(Color::BLACK)].reset(new King{Color::BLACK, 0, 3, &mTiles});
 
     //Add queens
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Queen{Color::WHITE, 0, 4, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Queen{Color::BLACK, 7, 4, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Queen{Color::WHITE, 7, 4, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Queen{Color::BLACK, 0, 4, &mTiles});
 
     //Add bishops
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Bishop{Color::WHITE, 0, 2, &mTiles});
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Bishop{Color::WHITE, 0, 5, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Bishop{Color::BLACK, 7, 2, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Bishop{Color::BLACK, 7, 5, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Bishop{Color::WHITE, 7, 2, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Bishop{Color::WHITE, 7, 5, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Bishop{Color::BLACK, 0, 2, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Bishop{Color::BLACK, 0, 5, &mTiles});
 
     //Add knights
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Knight{Color::WHITE, 0, 1, &mTiles});
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Knight{Color::WHITE, 0, 6, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Knight{Color::BLACK, 7, 1, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Knight{Color::BLACK, 7, 6, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Knight{Color::WHITE, 7, 1, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Knight{Color::WHITE, 7, 6, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Knight{Color::BLACK, 0, 1, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Knight{Color::BLACK, 0, 6, &mTiles});
     
     ////Add rooks
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Rook{Color::WHITE, 0, 0, &mTiles});
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Rook{Color::WHITE, 0, 7, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Rook{Color::BLACK, 7, 0, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Rook{Color::BLACK, 7, 7, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Rook{Color::WHITE, 7, 0, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Rook{Color::WHITE, 7, 7, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Rook{Color::BLACK, 0, 0, &mTiles});
+    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Rook{Color::BLACK, 0, 7, &mTiles});
     
     //Add pawns
     for(int iCol = 0; iCol < 8; ++iCol)
     {
-        mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Pawn{Color::WHITE, 1, iCol, &mTiles});
-        mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Pawn{Color::BLACK, 6, iCol, &mTiles});        
+        mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Pawn{Color::WHITE, 6, iCol, &mTiles});
+        mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Pawn{Color::BLACK, 1, iCol, &mTiles});        
     }
 }
 
