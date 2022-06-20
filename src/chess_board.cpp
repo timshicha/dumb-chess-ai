@@ -161,10 +161,10 @@ ChessBoard::ChessBoard(const char* filename)
     }
 
     // Fill in the rest with blanks
-    for (int i = whitePieceCount; i < 15; ++i)
+    for (int i = whitePieceCount; i < MAX_PIECE_COUNT; ++i)
         mPieces[int(Color::WHITE)][i].reset(nullptr);
 
-    for (int i = blackPieceCount; i < 15; ++i)
+    for (int i = blackPieceCount; i < MAX_PIECE_COUNT; ++i)
         mPieces[int(Color::BLACK)][i].reset(nullptr);
 }
 
@@ -246,15 +246,25 @@ void ChessBoard::test()
         }
     }
     
-    // Testing a piece's possibleLandings() function...
-    /*
-    Piece* a = ((mTiles[7][4]).getContainedPiece());
-    std::cout << this->get_board_as_string() << "\n\n";
+}
 
-    std::vector<std::pair<int, int>> possibleMoves = a->getLegalMoves();
-    for (int i = 0; i < possibleMoves.size(); i++)
+bool ChessBoard::isInCheck(Color kingColor) const
+{
+    bool inCheck = false;
+
+    // May be more efficient to use an int instead of type-casting every time,
+    // but for clarity, we will leave that decision until later.
+    Color enemyColor;
+    if(kingColor == Color::WHITE)
+        enemyColor = Color::BLACK;
+    else
+        enemyColor = Color::WHITE;
+
+    // Iterate through each enemy piece and see if it attacks the king
+    for (int i = 0; i < MAX_PIECE_COUNT; ++i)
     {
-        std::cerr << possibleMoves[i].first << " " << possibleMoves[i].second << std::endl;
+
     }
-    */
+
+    return false;
 }
