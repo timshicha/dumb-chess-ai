@@ -12,7 +12,9 @@ class Pawn : public Piece
 
     virtual ~Pawn() = default;
 
+    // Returns a vector of coordinates where the knight can move.
     std::vector<std::pair<int, int>> getLegalMoves() const override;
+
     bool peekNextPossibleMove() override;
     int getValue() const override;
     std::string getName() const override;
@@ -48,15 +50,6 @@ class Bishop : public Piece
     bool peekNextPossibleMove() override;
     int getValue() const override;
     std::string getName() const override;
-
-  private:
-    //Movement patterns
-    bool mUpLeftSequence = true;
-    bool mUpRightSequence = false;
-    bool mDownRightSequence = false;
-    bool mDownLeftSequence = false;
-    //Indicates whether all moves have been tried
-    bool mCompletedCycle = false;
 };
 
 
@@ -67,11 +60,12 @@ class Rook : public Piece
 
     virtual ~Rook() = default;
 
+    // Returns a vector of coordinates where the knight can move.
+    std::vector<std::pair<int, int>> getLegalMoves() const override;
+
     bool peekNextPossibleMove() override;
     int getValue() const override;
     std::string getName() const override;
-    // Returns a vector of coordinates where the rook can move.
-    std::vector<std::pair<int, int>> getLegalMoves() const override;
 };
 
 
@@ -82,10 +76,12 @@ class Queen : public Piece
 
     virtual ~Queen() = default;
 
+    // Returns a vector of coordinates where the knight can move.
+    std::vector<std::pair<int, int>> getLegalMoves() const override;
+
     bool peekNextPossibleMove() override;
     int getValue() const override;
     std::string getName() const override;
-    std::vector<std::pair<int, int>> getLegalMoves() const override;
 };
 
 
@@ -96,9 +92,11 @@ class King : public Piece
 
     virtual ~King() = default;
 
+        // Returns a vector of coordinates where the knight can move.
+    std::vector<std::pair<int, int>> getLegalMoves() const override;
+
     bool peekNextPossibleMove() override;
     int getValue() const override;
     std::string getName() const override;
-    std::vector<std::pair<int, int>> getLegalMoves() const override;
 };
 
