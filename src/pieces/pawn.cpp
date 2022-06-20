@@ -54,7 +54,7 @@ std::vector<std::pair<int, int>> Pawn::getLegalMoves() const
             if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr) // If still empty, we can move
                 legalMoves.push_back({newRow, newCol});
         }
-        else if(mColor == Color::BLACK && mCol == 1) // If black and in original row
+        else if(mColor == Color::BLACK && mRow == 1) // If black and in original row
         {
             newRow = mRow + 2;
             if((*mTiles)[newRow][newCol].getContainedPiece() == nullptr) // If still empty, we can move
