@@ -35,8 +35,8 @@ ChessBoard::ChessBoard()
     int blackPieceCount = 0;
 
     //Add kings
-    mWhitePieces[whitePieceCount++].reset(new King{Color::WHITE, 0, 3, &mTiles});
-    mBlackPieces[blackPieceCount++].reset(new King{Color::BLACK, 7, 3, &mTiles});
+    mWhiteKing = new King{Color::WHITE, 0, 3, &mTiles};
+    mBlackKing = new King{Color::BLACK, 7, 3, &mTiles};
 
     //Add queens
     mWhitePieces[whitePieceCount++].reset(new Queen{Color::WHITE, 0, 4, &mTiles});
@@ -125,31 +125,16 @@ ChessBoard::ChessBoard(const char* filename)
 
    int whitePieceCount = 0;
    int blackPieceCount = 0;
-    // Find the kings (they should be the first element in list)
-    for(int iBoardRow = 0; iBoardRow < 8; ++iBoardRow)
-    {
-        for(int iBoardCol = 0; iBoardCol < 8; ++iBoardCol)
-        {
-            if(board[iBoardRow][iBoardCol] == "wKing")
-            {
-                mWhitePieces[whitePieceCount++].reset(new King{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
-                board[iBoardRow][iBoardCol] = "0";
-            }
-            else if(board[iBoardRow][iBoardCol] == "bKing")
-            {
-                mBlackPieces[blackPieceCount++].reset(new King{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
-                board[iBoardRow][iBoardCol] = "0";
-            }
-        }
-    }
 
-    // Now for all other pieces, add them anywhere in array
+    // Add all the pieces
     for(int iBoardRow = 0; iBoardRow < 8; ++iBoardRow)
     {
         for(int iBoardCol = 0; iBoardCol < 8; ++iBoardCol)
         {
             std::string word = board[iBoardRow][iBoardCol];
 
+            if(word == "wKing")
+                mWhiteKing = new King{Color::WHITE, iBoardRow, iBoardCol, &mTiles};
             if(word == "wQueen")
                 mWhitePieces[whitePieceCount++].reset(new Queen{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
             if(word == "wRook")
@@ -161,6 +146,8 @@ ChessBoard::ChessBoard(const char* filename)
             if(word == "wPawn")
                 mWhitePieces[whitePieceCount++].reset(new Pawn{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
 
+            if(word == "bKing")
+                mBlackKing = new King{Color::BLACK, iBoardRow, iBoardCol, &mTiles};
             if(word == "bQueen")
                 mBlackPieces[blackPieceCount++].reset(new Queen{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
             if(word == "bRook")
@@ -175,10 +162,10 @@ ChessBoard::ChessBoard(const char* filename)
     }
 
     // Fill in the rest with blanks
-    for (int i = whitePieceCount; i < 16; ++i)
+    for (int i = whitePieceCount; i < 15; ++i)
         mWhitePieces[i].reset(nullptr);
 
-    for (int i = blackPieceCount; i < 16; ++i)
+    for (int i = blackPieceCount; i < 15; ++i)
         mBlackPieces[i].reset(nullptr);
 }
 
@@ -262,10 +249,10 @@ void ChessBoard::test()
     
     // Testing a piece's possibleLandings() function...
     /*
-    mTiles[4][0].setContainedPiece(mTiles[0][4].getContainedPiece());
-    Rook* a = static_cast<Rook*> ((mTiles[0][0]).getContainedPiece());
+    Piece* a = ((mTiles[7][4]).getContainedPiece());
+    std::cout << this->get_board_as_string() << "\n\n";
+
     std::vector<std::pair<int, int>> possibleMoves = a->getLegalMoves();
-    std::cerr << "The piece at row 7 column 1 can move to the following positions:" << std::endl;
     for (int i = 0; i < possibleMoves.size(); i++)
     {
         std::cerr << possibleMoves[i].first << " " << possibleMoves[i].second << std::endl;

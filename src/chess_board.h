@@ -24,7 +24,9 @@ class ChessBoard
     //64 total tiles on the board
     Tile mTiles[8][8];
 
-    //16 pieces of each color
-    std::unique_ptr<Piece> mWhitePieces[16];
-    std::unique_ptr<Piece> mBlackPieces[16];
+    //15 pieces of each color, and 2 kings
+    std::unique_ptr<Piece> mWhitePieces[15];
+    std::unique_ptr<Piece> mBlackPieces[15];
+    Piece* mBlackKing;
+    Piece* mWhiteKing;
 };
