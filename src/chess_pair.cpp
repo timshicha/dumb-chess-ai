@@ -1,5 +1,7 @@
 #include "chess_pair.h"
 
+//Init Piece's static
+tilesPtr Piece::mTiles = nullptr;
 
 void Tile::setTile(Color color)
 {
@@ -26,8 +28,14 @@ Piece* Piece::MOVED_PIECE = nullptr;
 bool Piece::HAS_MOVED = false;
 
 
-Piece::Piece(int value, Color color, int row, int col, tilesPtr tiles) : mValue{value}, mColor { color }, mRow{ row }, mCol{ col }, mTiles{ tiles }
+Piece::Piece(int value, Color color, int row, int col, tilesPtr tiles) : mValue{value}, mColor { color }, mRow{ row }, mCol{ col }
 {
+    //If the already set ptr isn't equal to the passed in one, throw an error
+    if (mTiles != nullptr && mTiles != tiles)
+        throw(std::runtime_error{ "Error: Attempted to create a piece on non-existent or different chess tiles\n" });
+
+    mTiles = tiles;
+
     //Notify the tile of this piece
     (*mTiles)[mRow][mCol].setContainedPiece(this);
 }

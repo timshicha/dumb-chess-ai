@@ -82,6 +82,6 @@ class Piece
     bool mAlive = true; //(always vaild, even if piece is not alive)
     bool moved = false; // keep track of whether the piece moved (for castling)
 
-    //Reference to the ChessBoards's tiles
-    tilesPtr mTiles;
+    //Reference to the ChessBoards's tiles, shared by all pieces
+    static tilesPtr mTiles;
 };
