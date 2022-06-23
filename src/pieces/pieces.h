@@ -12,7 +12,7 @@ class Pawn : public Piece
 
     virtual ~Pawn() = default;
 
-    // Returns a vector of coordinates where the knight can move.
+    // Vector of tiles the pawn is attacking (plus forward).
     std::vector<std::pair<int, int>> getLegalMoves() const override;
 
     bool peekNextPossibleMove() override;
@@ -28,7 +28,7 @@ class Knight : public Piece
 
     virtual ~Knight() = default;
 
-    // Returns a vector of coordinates where the knight can move.
+    // Vector of tiles the knight is attacking.
     std::vector<std::pair<int, int>> getLegalMoves() const override;
 
     bool peekNextPossibleMove() override;
@@ -44,7 +44,7 @@ class Bishop : public Piece
 
     virtual ~Bishop() = default;
 
-    // Returns a vector of coordinates where the knight can move.
+    // Vector of tiles the bishop is attacking.
     std::vector<std::pair<int, int>> getLegalMoves() const override;
 
     bool peekNextPossibleMove() override;
@@ -60,7 +60,7 @@ class Rook : public Piece
 
     virtual ~Rook() = default;
 
-    // Returns a vector of coordinates where the knight can move.
+    // Vector of tiles the rook is attacking.
     std::vector<std::pair<int, int>> getLegalMoves() const override;
 
     bool peekNextPossibleMove() override;
@@ -76,7 +76,7 @@ class Queen : public Piece
 
     virtual ~Queen() = default;
 
-    // Returns a vector of coordinates where the knight can move.
+    // Vector of tiles the queen is attacking.
     std::vector<std::pair<int, int>> getLegalMoves() const override;
 
     bool peekNextPossibleMove() override;
@@ -92,7 +92,7 @@ class King : public Piece
 
     virtual ~King() = default;
 
-        // Returns a vector of coordinates where the knight can move.
+    // Vector of tiles the king is attacking.
     std::vector<std::pair<int, int>> getLegalMoves() const override;
 
     bool peekNextPossibleMove() override;

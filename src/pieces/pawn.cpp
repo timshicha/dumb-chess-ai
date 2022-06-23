@@ -2,8 +2,9 @@
 #include "pieces.h"
 
 
-// Returns a vector of coordinates where the rook can move.
-// Does not exclude moves where the rook puts own king in check.
+// Gets all the tiles that the pawn is attacking.
+// Note that a pawn may be attacking a tile even if it can't capture it, i.e.,
+// moving the pawn will put own king into check.
 std::vector<std::pair<int, int>> Pawn::getLegalMoves() const
 {
     std::vector<std::pair<int,int>> legalMoves;

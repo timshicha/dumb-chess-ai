@@ -2,6 +2,9 @@
 #include "pieces.h"
 
 
+// Gets all the tiles that the queen is attacking.
+// Note that a queen may be attacking a tile even if it can't capture it, i.e.,
+// moving the queen will put own king into check.
 std::vector<std::pair<int, int>> Queen::getLegalMoves() const
 {
     // Holds the list of coords the Queen can play that are on the board.

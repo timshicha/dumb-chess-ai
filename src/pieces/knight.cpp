@@ -1,8 +1,9 @@
 #pragma once
 #include "pieces.h"
 
-// Returns a vector of coordinates where the knight can move.
-// Does not exclude moves where the knight puts own king in check.
+// Gets all the tiles that the knight is attacking.
+// Note that a knight may be attacking a tile even if it can't capture it, i.e.,
+// moving the knight will put own king into check.
 std::vector<std::pair<int, int>> Knight::getLegalMoves() const
 {
     // All the possible places the knight can land.

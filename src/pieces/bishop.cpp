@@ -1,7 +1,9 @@
 #pragma once
 #include "pieces.h"
 
-
+// Gets all the tiles that the bishop is attacking.
+// Note that a bishop may be attacking a tile even if it can't capture it, i.e.,
+// moving the bishop will put own king into check.
 std::vector<std::pair<int, int>> Bishop::getLegalMoves() const
 {
     // Holds the list of coords the Bishop can play that are on the board.
