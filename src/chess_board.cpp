@@ -69,9 +69,9 @@ ChessBoard::ChessBoard()
 
     // nextMove() related things...
     // if piece index is MAX_PIECE_COUNT + 1, we will return null when calling nextMove()
-    currentPieceIndex = MAX_PIECE_COUNT + 1;
-    currentPieceMoveIndex = 0;
-    currentPieceIsKing = false;
+    mCurrentPieceIndex = MAX_PIECE_COUNT + 1;
+    mCurrentPieceMoveIndex = 0;
+    mCurrentPieceIsKing = false;
 }
 
 // Create a chessboard as specified in text file
@@ -175,9 +175,9 @@ ChessBoard::ChessBoard(const char* filename)
 
     // nextMove() related things...
     // if piece index is MAX_PIECE_COUNT + 1, we will return null when calling nextMove()
-    currentPieceIndex = MAX_PIECE_COUNT + 1;
-    currentPieceMoveIndex = 0;
-    currentPieceIsKing = false;
+    mCurrentPieceIndex = MAX_PIECE_COUNT + 1;
+    mCurrentPieceMoveIndex = 0;
+    mCurrentPieceIsKing = false;
 }
 
 
@@ -294,27 +294,27 @@ bool ChessBoard::isInCheck(Color kingColor) const
 // the chessboard from the current chessboard position.
 void ChessBoard::startMoveSequence(Color color)
 {
-    currentPieceMoveIndex = 0;
-    currentPieceIsKing = false;
+    mCurrentPieceMoveIndex = 0;
+    mCurrentPieceIsKing = false;
     
     // Keep searching for the first piece with a legal move. When one is found, stop searching.
-    for (currentPieceIndex = 0; currentPieceIndex < MAX_PIECE_COUNT; ++currentPieceIndex)
+    for (mCurrentPieceIndex = 0; mCurrentPieceIndex < MAX_PIECE_COUNT; ++mCurrentPieceIndex)
     {
         // Get legal moves for this piece
-        currentPieceLegalMoves = mPieces[int(color)][currentPieceIndex]->getLegalMoves();
+        mCurrentPieceLegalMoves = mPieces[int(color)][mCurrentPieceIndex]->getLegalMoves();
 
         // If there's at least one legal move, this is the piece we're starting with.
         // We don't need to do anything else.
-        if(currentPieceLegalMoves.size() > 0)
+        if(mCurrentPieceLegalMoves.size() > 0)
             return;
     }
 
     // If no piece had legal moves, see if a king has legal moves.
-    currentPieceLegalMoves = mKings[int(color)]->getLegalMoves();
+    mCurrentPieceLegalMoves = mKings[int(color)]->getLegalMoves();
 
     // If the king has moves
-    if(currentPieceLegalMoves.size() > 0)
+    if(mCurrentPieceLegalMoves.size() > 0)
     {
-        currentPieceIsKing = true;
+        mCurrentPieceIsKing = true;
     }
 }

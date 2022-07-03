@@ -51,8 +51,8 @@ class ChessBoard
     void unsafeMovePiece(int oldRow, int oldCol, int newRow, int newCol);
 
     // Related to temp moving and nextMove:
-    int currentPieceIndex; // Which piece we are currently on
-    bool currentPieceIsKing; // Is the current piece to evaluate the king?
-    std::vector<std::pair<int,int>> currentPieceLegalMoves; // Moves the current piece can move to
-    int currentPieceMoveIndex; // Which move the current piece we are evaluating is at
+    int mCurrentPieceIndex; // Which piece we are currently on
+    bool mCurrentPieceIsKing; // Is the current piece to evaluate the king?
+    std::vector<std::pair<int,int>> mCurrentPieceLegalMoves; // Moves the current piece can move to
+    int mCurrentPieceMoveIndex; // Which move the current piece we are evaluating is at
 };
