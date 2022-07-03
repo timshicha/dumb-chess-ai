@@ -44,14 +44,14 @@ void Piece::kill()
 {
     mAlive = false;
     // Remove piece from its tile
-    (*mTiles)[mRow][mCol].setContainedPiece(nullptr);
+    // (*mTiles)[mRow][mCol].setContainedPiece(nullptr);
 }
 
 void Piece::undoKill()
 {
     mAlive = true;
     //Place the piece back on its tile
-    (*mTiles)[mRow][mCol].setContainedPiece(this);
+    // (*mTiles)[mRow][mCol].setContainedPiece(this);
 }
 
 bool Piece::isInRange(int row, int col)

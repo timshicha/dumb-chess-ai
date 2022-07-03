@@ -45,6 +45,9 @@ class Piece
     int getCol() const;
     bool isAlive() const;
     virtual int getValue() const = 0;
+
+    // Returns a vector of the squares that the piece can move to (does not check
+    // if the move puts own king in check).
     virtual std::vector<std::pair<int, int>> getLegalMoves() const = 0;
 
     // Get the name of the piece (for display purposes)
