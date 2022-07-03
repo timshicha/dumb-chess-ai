@@ -71,6 +71,7 @@ ChessBoard::ChessBoard()
     // if piece index is MAX_PIECE_COUNT + 1, we will return null when calling nextMove()
     currentPieceIndex = MAX_PIECE_COUNT + 1;
     currentPieceMoveIndex = 0;
+    currentPieceIsKing = false;
 }
 
 // Create a chessboard as specified in text file
@@ -176,6 +177,7 @@ ChessBoard::ChessBoard(const char* filename)
     // if piece index is MAX_PIECE_COUNT + 1, we will return null when calling nextMove()
     currentPieceIndex = MAX_PIECE_COUNT + 1;
     currentPieceMoveIndex = 0;
+    currentPieceIsKing = false;
 }
 
 
@@ -290,7 +292,29 @@ bool ChessBoard::isInCheck(Color kingColor) const
 
 // Enable the nextMove() function. This function sets things up to allow nextMove() to work for
 // the chessboard from the current chessboard position.
-void ChessBoard::startMoveSequence()
+void ChessBoard::startMoveSequence(Color color)
 {
+    currentPieceMoveIndex = 0;
+    currentPieceIsKing = false;
+    
+    // Keep searching for the first piece with a legal move. When one is found, stop searching.
+    for (currentPieceIndex = 0; currentPieceIndex < MAX_PIECE_COUNT; ++currentPieceIndex)
+    {
+        // Get legal moves for this piece
+        currentPieceLegalMoves = mPieces[int(color)][currentPieceIndex]->getLegalMoves();
 
+        // If there's at least one legal move, this is the piece we're starting with.
+        // We don't need to do anything else.
+        if(currentPieceLegalMoves.size() > 0)
+            return;
+    }
+
+    // If no piece had legal moves, see if a king has legal moves.
+    currentPieceLegalMoves = mKings[int(color)]->getLegalMoves();
+
+    // If the king has moves
+    if(currentPieceLegalMoves.size() > 0)
+    {
+        currentPieceIsKing = true;
+    }
 }

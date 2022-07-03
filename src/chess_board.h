@@ -27,7 +27,8 @@ class ChessBoard
 
     // Enable the nextMove() function. This function sets things up to allow nextMove() to work for
     // the chessboard from the current chessboard position.
-    void startMoveSequence();
+    // Takes the color of the player whose moves to evaluate.
+    void startMoveSequence(Color color);
 
     
 
@@ -51,6 +52,7 @@ class ChessBoard
 
     // Related to temp moving and nextMove:
     int currentPieceIndex; // Which piece we are currently on
+    bool currentPieceIsKing; // Is the current piece to evaluate the king?
     std::vector<std::pair<int,int>> currentPieceLegalMoves; // Moves the current piece can move to
     int currentPieceMoveIndex; // Which move the current piece we are evaluating is at
 };
