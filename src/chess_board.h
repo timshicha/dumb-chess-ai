@@ -51,5 +51,6 @@ class ChessBoard
 
     // Related to temp moving and nextMove:
     int currentPieceIndex; // Which piece we are currently on
+    std::vector<std::pair<int,int>> currentPieceLegalMoves; // Moves the current piece can move to
     int currentPieceMoveIndex; // Which move the current piece we are evaluating is at
 };
