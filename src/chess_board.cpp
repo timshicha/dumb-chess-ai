@@ -66,6 +66,11 @@ ChessBoard::ChessBoard()
         mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Pawn{Color::WHITE, 6, iCol, &mTiles});
         mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Pawn{Color::BLACK, 1, iCol, &mTiles});        
     }
+
+    // nextMove() related things...
+    // if piece index is MAX_PIECE_COUNT + 1, we will return null when calling nextMove()
+    currentPieceIndex = MAX_PIECE_COUNT + 1;
+    currentPieceMoveIndex = 0;
 }
 
 // Create a chessboard as specified in text file
@@ -166,6 +171,11 @@ ChessBoard::ChessBoard(const char* filename)
 
     for (int i = blackPieceCount; i < MAX_PIECE_COUNT; ++i)
         mPieces[int(Color::BLACK)][i].reset(nullptr);
+
+    // nextMove() related things...
+    // if piece index is MAX_PIECE_COUNT + 1, we will return null when calling nextMove()
+    currentPieceIndex = MAX_PIECE_COUNT + 1;
+    currentPieceMoveIndex = 0;
 }
 
 
@@ -276,4 +286,11 @@ bool ChessBoard::isInCheck(Color kingColor) const
     }
     // If none of the pieces attack the king, he is not in check
     return false;
+}
+
+// Enable the nextMove() function. This function sets things up to allow nextMove() to work for
+// the chessboard from the current chessboard position.
+void ChessBoard::startMoveSequence()
+{
+
 }
