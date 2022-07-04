@@ -4,6 +4,12 @@
 #include "pieces/pieces.h"
 
 #include <memory>
+#include <unordered_map>
+#include <stack>
+#include <vector>
+#include <tuple>
+
+
 
 
 class ChessBoard
@@ -21,38 +27,39 @@ class ChessBoard
     void test();
     bool isInCheck(Color kingColor) const;
 
-    // This is what the user calls. We will completely check to make sure that the move is legal.
-    // If the move is not legal, returns false.
-    bool safeMove(int oldRow, int oldCol, int newRow, int newCol);
-
-    // Enable the nextMove() function. This function sets things up to allow nextMove() to work for
-    // the chessboard from the current chessboard position.
-    // Takes the color of the player whose moves to evaluate.
-    void startMoveSequence(Color color);
-
-    
+    // Called by user
+    bool finalMove(int oldRow, int oldCol, int newRow, int newCol);
+    //Called by AI
+    void finalMove(std::unordered_map<Piece*, Tile*> boardSnapshot);
 
   private:
     //64 total tiles on the board
     Tile mTiles[8][8];
 
-    //15 pieces of each color, and 2 kings.
-    std::unique_ptr<Piece> mPieces[2][MAX_PIECE_COUNT]; // Access example: mPieces[int(Color::WHITE)][3]
-    std::unique_ptr<Piece> mKings[2]; // Access example: mKings[int(Color::WHITE)]
+    //16 pieces of each color
+    std::unique_ptr<Piece> mPieces[2][16]; // Access example: mPieces[int(Color::WHITE)][3]
+    //Extra non-owning reference to the kings
+    Piece* mKings[2]; // Access example: mKings[int(Color::WHITE)]
 
+    //Cycles through moves within the current board state
+    //Cannot be called successively in a single state, move must be undone before next move is done
+    //Also, cannot be called if the states stack is empty
+    bool tempMove();
+    bool undoTempMove();
 
-    // Move a piece from one location to another. Assumes the move is valid, but still ensures that the
-    // move did not create a self-check. If a self-check was made, the move is undone and false is returned.
-    // Also takes a color argument to ensure that a player is not moving another player's pieces.
-    bool movePiece(int oldRow, int oldCol, int newRow, int newCol);
-    
-    // Helper function: move a piece from one tile to another without checking whether it's legal.
-    // Updates the pieces and the 2-d tile array. Does not care what the landing tile is; it simply overwrites.
-    void unsafeMovePiece(int oldRow, int oldCol, int newRow, int newCol);
+    //Pushes a state on the stack
+    bool rememberState();
 
-    // Related to temp moving and nextMove:
-    int mCurrentPieceIndex; // Which piece we are currently on
-    bool mCurrentPieceIsKing; // Is the current piece to evaluate the king?
-    std::vector<std::pair<int,int>> mCurrentPieceLegalMoves; // Moves the current piece can move to
-    int mCurrentPieceMoveIndex; // Which move the current piece we are evaluating is at
+    //Pops off a state, doesn't care if there is an ongoing move in the current state
+    bool revertState();
+
+    //Pops off all states
+    void revertToOriginalState();
+
+    //Remember board states
+    //First state is always the actual state of the board
+    std::stack<std::unordered_map<Piece*, Tile*>> states;
+    //Remember where the last tempMove left off for each state
+    //Store the color of the temporarily moved piece, its index, its possible moves and which move is next
+    std::stack<std::tuple<Color, int, std::vector<std::pair<int,int>>, int>> stateTempMovesInfo;
 };
