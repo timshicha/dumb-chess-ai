@@ -11,8 +11,9 @@ class ChessBoard
   public:
     // Create starting chess board
     ChessBoard();
-    // Create chessboard as specified by textfile (for testing)
-    ChessBoard(const char * filename);
+    // Create chessboard as specified by textfile (for testing).
+    // White is to start by default.
+    ChessBoard(const char * filename, Color turnColor = Color::WHITE);
     ~ChessBoard() = default;
 
     // Nice visualization tool for debugging

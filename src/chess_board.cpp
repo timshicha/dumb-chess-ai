@@ -77,7 +77,7 @@ ChessBoard::ChessBoard()
 }
 
 // Create a chessboard as specified in text file
-ChessBoard::ChessBoard(const char* filename)
+ChessBoard::ChessBoard(const char* filename, Color turnColor)
 {
     std::ifstream file(filename);
 
@@ -175,7 +175,7 @@ ChessBoard::ChessBoard(const char* filename)
     for (int i = blackPieceCount; i < MAX_PIECE_COUNT; ++i)
         mPieces[int(Color::BLACK)][i].reset(nullptr);
 
-    mTurnColor = Color::WHITE;
+    mTurnColor = turnColor;
 
     // nextMove() related things...
     // if piece index is MAX_PIECE_COUNT + 1, we will return null when calling nextMove()
