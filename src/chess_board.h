@@ -40,6 +40,13 @@ class ChessBoard
     std::unique_ptr<Piece> mPieces[2][MAX_PIECE_COUNT]; // Access example: mPieces[int(Color::WHITE)][3]
     std::unique_ptr<Piece> mKings[2]; // Access example: mKings[int(Color::WHITE)]
 
+    Color mTurnColor; // Color of the player whose turn it is
+
+   // Related to temp moving and nextMove:
+    int mCurrentPieceIndex; // Which piece we are currently on
+    bool mCurrentPieceIsKing; // Is the current piece to evaluate the king?
+    std::vector<std::pair<int,int>> mCurrentPieceLegalMoves; // Moves the current piece can move to
+    int mCurrentPieceMoveIndex; // Which move the current piece we are evaluating is at
 
     // Move a piece from one location to another. Assumes the move is valid, but still ensures that the
     // move did not create a self-check. If a self-check was made, the move is undone and false is returned.
@@ -49,10 +56,4 @@ class ChessBoard
     // Helper function: move a piece from one tile to another without checking whether it's legal.
     // Updates the pieces and the 2-d tile array. Does not care what the landing tile is; it simply overwrites.
     void unsafeMovePiece(int oldRow, int oldCol, int newRow, int newCol);
-
-    // Related to temp moving and nextMove:
-    int mCurrentPieceIndex; // Which piece we are currently on
-    bool mCurrentPieceIsKing; // Is the current piece to evaluate the king?
-    std::vector<std::pair<int,int>> mCurrentPieceLegalMoves; // Moves the current piece can move to
-    int mCurrentPieceMoveIndex; // Which move the current piece we are evaluating is at
 };
