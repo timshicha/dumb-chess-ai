@@ -35,8 +35,8 @@ ChessBoard::ChessBoard()
     int blackPieceCount = 0;
 
     //Add kings
-    mKings[int(Color::WHITE)].reset(new King{Color::WHITE, 7, 3, &mTiles});
-    mKings[int(Color::BLACK)].reset(new King{Color::BLACK, 0, 3, &mTiles});
+    mPieces[int(Color::WHITE)].reset(new King{Color::WHITE, 7, 3, &mTiles});
+    mPieces[int(Color::BLACK)].reset(new King{Color::BLACK, 0, 3, &mTiles});
 
     //Add queens
     mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Queen{Color::WHITE, 7, 4, &mTiles});
