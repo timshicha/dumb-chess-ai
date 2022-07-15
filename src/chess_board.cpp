@@ -334,21 +334,27 @@ bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
     {
         //Take the enemy piece off the board
         targetTile->setContainedPiece(nullptr);
-        targetTileContainedPiece->setPosition(-1, -1);
         //kill it
         targetTileContainedPiece->kill();
     }
 
-    
-    //If moving the piece puts the king in check
-    if(isInCheck(mTurnColor))
-        return false;
-        
-    //Switch the color of the turn
+    //Move the target piece onto the target tile
+    targetPiece->getTile()->setContainedPiece(nullptr;)
+    targetPiece->setPosition(newRow, newCol);
+    targetTile->setContainedPiece(targetPiece);
+
+     //Switch the color of the turn
     if(mTurnColor == Color::WHITE)
         mTurnColor = Color::BLACK;
     else
         mTurnColor = Color::WHITE;
 
+    //If moving the piece puts the king in check
+    //Pop the stack and return false
+    if(isInCheck(mTurnColor))
+        {
+            undoTempMove();
+            return false;
+        }
     return true;
 }
