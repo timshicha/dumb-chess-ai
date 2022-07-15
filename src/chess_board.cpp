@@ -286,7 +286,7 @@ bool ChessBoard::isInCheck(Color kingColor) const
     return false;
 }
 
-    //Pushes on the stack
+//Pushes on the stack
 bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
 {
     //If max amount of temp moves have been made already
@@ -302,6 +302,15 @@ bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
     if(targetPiece->getColor() != mTurnColor)
         return false;
     
+     //Grab the piece's destination tile
+    auto targetTile = &mTiles[newRow][newCol];
+    //Grab the destination tile's contained piece
+    auto targetTileContainedPiece = targetTile->getContainedPiece();
+
+    //If the target tile is occupied by an ally
+    if(targetTileContainedPiece != nullptr && targetTileContainedPiece->getColor() == mTurnColor)
+        return false;
+
     //If the attempted move is not in the piece's moveset
     if(!pairInVector(targetPiece->getLegalMoves(), {newRow, newCol}))
         return false;
@@ -320,20 +329,26 @@ bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
     //Push the state on the stack
     mStates.push(currentState);
 
-    //Grab the piece's destination tile
-    auto targetTile = &mTiles[newRow][newCol];
-    //Grab the destination tile's contained piece
-    auto targetTileContainedPiece = targetTile->getContainedPiece();
-    //If the target tile isn't empty, kill the piece
-    if(targetTileContainedPiece != nullptr)
+    //If the target tile is occupied by an enemy, kill it
+    if(targetTileContainedPiece != nullptr && targetTileContainedPiece->getColor() != mTurnColor)
     {
-    
+        //Take the enemy piece off the board
+        targetTile->setContainedPiece(nullptr);
+        targetTileContainedPiece->setPosition(-1, -1);
+        //kill it
+        targetTileContainedPiece->kill();
     }
 
     
     //If moving the piece puts the king in check
     if(isInCheck(mTurnColor))
-    {
+        return false;
+        
+    //Switch the color of the turn
+    if(mTurnColor == Color::WHITE)
+        mTurnColor = Color::BLACK;
+    else
+        mTurnColor = Color::WHITE;
 
-    }
+    return true;
 }
