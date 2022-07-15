@@ -35,8 +35,8 @@ ChessBoard::ChessBoard()
     int blackPieceCount = 0;
 
     //Add kings
-    mPieces[int(Color::WHITE)].reset(new King{Color::WHITE, 7, 3, &mTiles});
-    mPieces[int(Color::BLACK)].reset(new King{Color::BLACK, 0, 3, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new King{Color::WHITE, 7, 3, &mTiles});
+    mPieces[int(Color::BLACK)][whitePieceCount++].reset(new King{Color::BLACK, 0, 3, &mTiles});
 
     //Add queens
     mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Queen{Color::WHITE, 7, 4, &mTiles});
@@ -66,14 +66,6 @@ ChessBoard::ChessBoard()
         mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Pawn{Color::WHITE, 6, iCol, &mTiles});
         mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Pawn{Color::BLACK, 1, iCol, &mTiles});        
     }
-
-    mTurnColor = Color::WHITE;
-
-    // nextMove() related things...
-    // if piece index is MAX_PIECE_COUNT + 1, we will return null when calling nextMove()
-    mCurrentPieceIndex = MAX_PIECE_COUNT + 1;
-    mCurrentPieceMoveIndex = 0;
-    mCurrentPieceIsKing = false;
 }
 
 // Create a chessboard as specified in text file
@@ -141,7 +133,10 @@ ChessBoard::ChessBoard(const char* filename, Color turnColor)
             std::string word = board[iBoardRow][iBoardCol];
 
             if(word == "wKing")
-                mKings[int(Color::WHITE)].reset(new King{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::WHITE)][whitePieceCount].reset(new King{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mKings[int(Color::WHITE)] = mPieces[int(Color::WHITE)][whitePieceCount++].get();
+            }
             if(word == "wQueen")
                 mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Queen{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
             if(word == "wRook")
@@ -154,7 +149,10 @@ ChessBoard::ChessBoard(const char* filename, Color turnColor)
                 mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Pawn{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
 
             if(word == "bKing")
-                mKings[int(Color::BLACK)].reset(new King{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::BLACK)][blackPieceCount].reset(new King{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mKings[int(Color::BLACK)] = mPieces[int(Color::BLACK)][blackPieceCount++].get();
+            }
             if(word == "bQueen")
                 mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Queen{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
             if(word == "bRook")
@@ -176,12 +174,6 @@ ChessBoard::ChessBoard(const char* filename, Color turnColor)
         mPieces[int(Color::BLACK)][i].reset(nullptr);
 
     mTurnColor = turnColor;
-
-    // nextMove() related things...
-    // if piece index is MAX_PIECE_COUNT + 1, we will return null when calling nextMove()
-    mCurrentPieceIndex = MAX_PIECE_COUNT + 1;
-    mCurrentPieceMoveIndex = 0;
-    mCurrentPieceIsKing = false;
 }
 
 
@@ -294,31 +286,54 @@ bool ChessBoard::isInCheck(Color kingColor) const
     return false;
 }
 
-// Enable the nextMove() function. This function sets things up to allow nextMove() to work for
-// the chessboard from the current chessboard position.
-void ChessBoard::startMoveSequence(Color color)
+    //Pushes on the stack
+bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
 {
-    mCurrentPieceMoveIndex = 0;
-    mCurrentPieceIsKing = false;
-    
-    // Keep searching for the first piece with a legal move. When one is found, stop searching.
-    for (mCurrentPieceIndex = 0; mCurrentPieceIndex < MAX_PIECE_COUNT; ++mCurrentPieceIndex)
-    {
-        // Get legal moves for this piece
-        mCurrentPieceLegalMoves = mPieces[int(color)][mCurrentPieceIndex]->getLegalMoves();
+    //If max amount of temp moves have been made already
+        if(mStates.size() >= 4)
+        return false;
 
-        // If there's at least one legal move, this is the piece we're starting with.
-        // We don't need to do anything else.
-        if(mCurrentPieceLegalMoves.size() > 0)
-            return;
+    //Grab the piece to be moved
+    auto targetPiece = mTiles[oldRow][oldCol].getContainedPiece();
+    //If tile specified to contain the target piece is emtpy
+    if(targetPiece == nullptr)
+        return false;
+    //If the specified piece is the wrong color
+    if(targetPiece->getColor() != mTurnColor)
+        return false;
+    
+    //If the attempted move is not in the piece's moveset
+    if(!pairInVector(targetPiece->getLegalMoves(), {newRow, newCol}))
+        return false;
+
+    //Rememeber the current state
+    std::unordered_map<Piece*, Tile*> currentState;
+    for(auto& iSameColorPieces : mPieces)
+    {
+        for(auto& iPiece : iSameColorPieces)
+        {
+            //Insert every piece as a key, and every tile as the data
+            currentState.insert({iPiece.get(), iPiece->getTile()});
+            iPiece->getTile();
+        }
+    }
+    //Push the state on the stack
+    mStates.push(currentState);
+
+    //Grab the piece's destination tile
+    auto targetTile = &mTiles[newRow][newCol];
+    //Grab the destination tile's contained piece
+    auto targetTileContainedPiece = targetTile->getContainedPiece();
+    //If the target tile isn't empty, kill the piece
+    if(targetTileContainedPiece != nullptr)
+    {
+    
     }
 
-    // If no piece had legal moves, see if a king has legal moves.
-    mCurrentPieceLegalMoves = mKings[int(color)]->getLegalMoves();
-
-    // If the king has moves
-    if(mCurrentPieceLegalMoves.size() > 0)
+    
+    //If moving the piece puts the king in check
+    if(isInCheck(mTurnColor))
     {
-        mCurrentPieceIsKing = true;
+
     }
 }

@@ -40,6 +40,7 @@ class Piece
     //Checks if the provided row and column are on the board
     static bool isInRange(int row, int col);
 
+    Tile* getTile();  //get the tile the piece is on, returns nullptr if piece is dead
     Color getColor() const;
     int getRow() const;
     int getCol() const;

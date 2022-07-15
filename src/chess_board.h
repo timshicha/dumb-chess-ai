@@ -16,7 +16,7 @@ class ChessBoard
     // Create starting chess board
     ChessBoard();
     // Create chessboard as specified by textfile (for testing).
-    ChessBoard(const char * filename);
+    ChessBoard(const char * filename,  Color turnColor);
     ~ChessBoard() = default;
 
     //Returns an array of pieces of the specified color
