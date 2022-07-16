@@ -31,10 +31,10 @@ class ChessBoard
     //Can only be used when the states stack is empty
     bool finalMove(int oldRow, int oldCol, int newRow, int newCol);
 
-    //Pushes on the stack
+    //Pushes on the stack and make a move
     bool tempMove(int oldRow, int oldCol, int newRow, int newCol);
 
-    //Pops off the stack
+    //Pops off the stack and restore the board
     bool undoTempMove();
 
     //Returns how many states are on the stack
