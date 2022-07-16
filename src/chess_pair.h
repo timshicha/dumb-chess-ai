@@ -1,5 +1,7 @@
 #pragma once
 #include "util/util.h"
+#include <array>
+
 
 // Forward declarations
 class Piece;
@@ -22,25 +24,16 @@ class Tile
     Piece* mContainedPiece = nullptr;
 };
 
-//Pointer to 2d array of tiles
-using tilesPtr = Tile(*)[8][8];  
-
-
 class Piece
 {
   public:
-    Piece(int value, Color color, int row, int col, tilesPtr tiles);
+    Piece(int value, Color color, int row, int col, std::array<std::array<Tile, 8>,8>* tiles);
 
     virtual ~Piece() = default;
-
-    //Cycle through possible moves the piece could make
-    //Must cycle through all moves
-    virtual bool peekNextPossibleMove() = 0;
 
     //Checks if the provided row and column are on the board
     static bool isInRange(int row, int col);
 
-    Tile* getTile();  //get the tile the piece is on, returns nullptr if piece is dead
     Color getColor() const;
     int getRow() const;
     int getCol() const;
@@ -54,38 +47,17 @@ class Piece
     // Get the name of the piece (for display purposes)
     virtual std::string getName() const = 0;
     void kill();
-    void undoKill();
-    void setMoved(bool moved=true);
+    void undoKill(int row, int col);
 
     void setPosition(int row, int col);
 
-  protected:
-    //Methods below work together to temporarily move one piece
-    //void tempKill();
-    //void undoTempKill();
-    //Returns true on successful move and false if provided indices are unavailable
-    //Throws exception if moves are attempted in succession
-    bool tempMove(int newRow, int newCol);
-    //Unmakes a move, does noting if no move was made
-    void undoTempMove();
-    //Reference the piece that this object killed
-    Piece* mTempKilledPiece = nullptr;
-    //Remember this object's position when the turn started (before first move)
-    //Should only be used by tempMove() and undoTempMove()
-    int mAnchorRow = -1;
-    int mAnchorCol = -1;
-    
-    //Indicate to all class objects whether a move has occured
-    static bool HAS_MOVED;
-    //Notify all class objects about which piece was moved
-    static Piece* MOVED_PIECE;
-    
+  protected: 
+  
     const int mValue;
     Color mColor;  
-    int mRow, mCol; //The position indices of the piece
-    bool mAlive = true; //(always vaild, even if piece is not alive)
-    bool moved = false; // keep track of whether the piece moved (for castling)
+    int mRow, mCol; //The position indices of the piece, -1 when the piece is dead
+    bool mAlive = true; 
 
     //Reference to the ChessBoards's tiles, shared by all pieces
-    static tilesPtr mTiles;
+    static inline std::array<std::array<Tile, 8>,8>* mTiles = nullptr;
 };
