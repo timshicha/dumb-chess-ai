@@ -20,7 +20,7 @@ class ChessBoard
     ~ChessBoard() = default;
 
     //Returns an array of pieces of the specified color
-     std::array<Piece, 16>& operator[](Color);
+     const std::array<Piece, 16>& operator[](Color);
 
     // Nice visualization tool for debugging
     std::string get_board_as_string();
@@ -38,14 +38,17 @@ class ChessBoard
     bool undoTempMove();
 
     //Returns how many states are on the stack
-    int countTempMoves();
+    int countTempMoves() const;
 
     //Throws error if the wrong color is passed in
-    std::vector<std::pair<int,int>> getLegalMoves(Color pieceColor, int pieceIndex);
-
+    std::vector<std::pair<int,int>> getLegalMoves(Color pieceColor, int pieceIndex) const;
+  
+  private:
+    //Flip the color of the ongoing turn
+    void switchTurnColor();
+  
   private:
     //64 total tiles on the board
-    //Tile mTiles[8][8];
     std::array<std::array<Tile, 8>,8> mTiles;
 
     //16 pieces of each color
