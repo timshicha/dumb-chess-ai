@@ -44,6 +44,9 @@ ChessBoard::ChessBoard()
     //Add kings
     mPieces[int(Color::WHITE)][whitePieceCount++].reset(new King{Color::WHITE, 7, 3, &mTiles});
     mPieces[int(Color::BLACK)][whitePieceCount++].reset(new King{Color::BLACK, 0, 3, &mTiles});
+    //Set the kings' extra references
+    mKings[int(Color::WHITE)] = mPieces[int(Color::WHITE)][whitePieceCount++].get();
+    mKings[int(Color::BLACK)] = mPieces[int(Color::BLACK)][blackPieceCount++].get();
 
     //Add queens
     mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Queen{Color::WHITE, 7, 4, &mTiles});
@@ -353,17 +356,15 @@ bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
     targetPiece->setPosition(newRow, newCol);
     targetTile->setContainedPiece(targetPiece);
 
-     //Switch the color of the turn
-    if(mTurnColor == Color::WHITE)
-        mTurnColor = Color::BLACK;
-    else
-        mTurnColor = Color::WHITE;
+    //Switch the color of the turn
+    this->switchTurnColor();
+
 
     //If moving the piece puts the king in check
     //Pop the stack and return false
     if(isInCheck(mTurnColor))
         {
-            undoTempMove();
+            this->undoTempMove();
             return false;
         }
     return true;
@@ -398,11 +399,26 @@ bool ChessBoard::undoTempMove()
             }
 		}
 
-     //Switch the color of the turn
+    //Pop of the now-restored frame
+    mStates.pop();
+
+    //Switch the color of the turn
+    this->switchTurnColor();
+
+    return true;
+}
+
+//Flip the color of the ongoing turn
+void ChessBoard::switchTurnColor()
+{
     if(mTurnColor == Color::WHITE)
         mTurnColor = Color::BLACK;
     else
         mTurnColor = Color::WHITE;
+}
 
-    return true;
+//Returns how many states are on the stack
+int ChessBoard::countTempMoves() const
+{
+    return mStates.size();
 }
