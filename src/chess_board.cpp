@@ -42,39 +42,61 @@ ChessBoard::ChessBoard()
     int blackPieceCount = 0;
 
     //Add kings
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new King{Color::WHITE, 7, 3, &mTiles});
-    mPieces[int(Color::BLACK)][whitePieceCount++].reset(new King{Color::BLACK, 0, 3, &mTiles});
-    //Set the kings' extra references
+    mPieces[int(Color::WHITE)][whitePieceCount].reset(new King{Color::WHITE, 7, 3, &mTiles});
+    mTiles[7][3].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount].get());
     mKings[int(Color::WHITE)] = mPieces[int(Color::WHITE)][whitePieceCount++].get();
+    
+    mPieces[int(Color::BLACK)][whitePieceCount].reset(new King{Color::BLACK, 0, 3, &mTiles});
+    mTiles[7][3].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount].get());
     mKings[int(Color::BLACK)] = mPieces[int(Color::BLACK)][blackPieceCount++].get();
 
     //Add queens
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Queen{Color::WHITE, 7, 4, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Queen{Color::BLACK, 0, 4, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount].reset(new Queen{Color::WHITE, 7, 4, &mTiles});
+    mTiles[7][4].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+    
+    mPieces[int(Color::BLACK)][blackPieceCount].reset(new Queen{Color::BLACK, 0, 4, &mTiles});
+    mTiles[0][4].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
 
     //Add bishops
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Bishop{Color::WHITE, 7, 2, &mTiles});
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Bishop{Color::WHITE, 7, 5, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Bishop{Color::BLACK, 0, 2, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Bishop{Color::BLACK, 0, 5, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount].reset(new Bishop{Color::WHITE, 7, 2, &mTiles});
+    mTiles[7][2].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+    mPieces[int(Color::WHITE)][whitePieceCount].reset(new Bishop{Color::WHITE, 7, 5, &mTiles});
+    mTiles[7][5].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+    
+    mPieces[int(Color::BLACK)][blackPieceCount].reset(new Bishop{Color::BLACK, 0, 2, &mTiles});
+    mTiles[0][2].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
+    mPieces[int(Color::BLACK)][blackPieceCount].reset(new Bishop{Color::BLACK, 0, 5, &mTiles});
+    mTiles[0][5].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
 
     //Add knights
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Knight{Color::WHITE, 7, 1, &mTiles});
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Knight{Color::WHITE, 7, 6, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Knight{Color::BLACK, 0, 1, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Knight{Color::BLACK, 0, 6, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount].reset(new Knight{Color::WHITE, 7, 1, &mTiles});
+    mTiles[7][1].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+    mPieces[int(Color::WHITE)][whitePieceCount].reset(new Knight{Color::WHITE, 7, 6, &mTiles});
+    mTiles[7][6].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+
+    mPieces[int(Color::BLACK)][blackPieceCount].reset(new Knight{Color::BLACK, 0, 1, &mTiles});
+    mTiles[0][1].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
+    mPieces[int(Color::BLACK)][blackPieceCount].reset(new Knight{Color::BLACK, 0, 6, &mTiles});
+    mTiles[0][6].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
     
     ////Add rooks
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Rook{Color::WHITE, 7, 0, &mTiles});
-    mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Rook{Color::WHITE, 7, 7, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Rook{Color::BLACK, 0, 0, &mTiles});
-    mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Rook{Color::BLACK, 0, 7, &mTiles});
+    mPieces[int(Color::WHITE)][whitePieceCount].reset(new Rook{Color::WHITE, 7, 0, &mTiles});
+    mTiles[7][0].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+    mPieces[int(Color::WHITE)][whitePieceCount].reset(new Rook{Color::WHITE, 7, 7, &mTiles});
+    mTiles[7][7].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+
+    mPieces[int(Color::BLACK)][blackPieceCount].reset(new Rook{Color::BLACK, 0, 0, &mTiles});
+    mTiles[0][0].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
+    mPieces[int(Color::BLACK)][blackPieceCount].reset(new Rook{Color::BLACK, 0, 7, &mTiles});
+    mTiles[7][0].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
     
     //Add pawns
     for(int iCol = 0; iCol < 8; ++iCol)
     {
-        mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Pawn{Color::WHITE, 6, iCol, &mTiles});
-        mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Pawn{Color::BLACK, 1, iCol, &mTiles});        
+        mPieces[int(Color::WHITE)][whitePieceCount].reset(new Pawn{Color::WHITE, 6, iCol, &mTiles});
+        mTiles[6][iCol].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+        mPieces[int(Color::BLACK)][blackPieceCount].reset(new Pawn{Color::BLACK, 1, iCol, &mTiles});   
+        mTiles[1][iCol].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
     }
 }
 
@@ -132,8 +154,7 @@ ChessBoard::ChessBoard(const char* filename, Color turnColor)
         7 B W B W B W B W
     */
 
-   int whitePieceCount = 0;
-   int blackPieceCount = 0;
+   int whitePieceCount = 0, blackPieceCount = 0;
 
     // Add all the pieces
     for(int iBoardRow = 0; iBoardRow < 8; ++iBoardRow)
@@ -145,43 +166,69 @@ ChessBoard::ChessBoard(const char* filename, Color turnColor)
             if(word == "wKing")
             {
                 mPieces[int(Color::WHITE)][whitePieceCount].reset(new King{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
-                mKings[int(Color::WHITE)] = mPieces[int(Color::WHITE)][whitePieceCount++].get();
+                mKings[int(Color::WHITE)] = mPieces[int(Color::WHITE)][whitePieceCount].get();
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
             }
             if(word == "wQueen")
-                mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Queen{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::WHITE)][whitePieceCount].reset(new Queen{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+            }
             if(word == "wRook")
-                mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Rook{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::WHITE)][whitePieceCount].reset(new Rook{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+            }
+
             if(word == "wBishop")
-                mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Bishop{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::WHITE)][whitePieceCount].reset(new Bishop{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+            }
             if(word == "wKnight")
-                mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Knight{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::WHITE)][whitePieceCount].reset(new Knight{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+            }
             if(word == "wPawn")
-                mPieces[int(Color::WHITE)][whitePieceCount++].reset(new Pawn{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::WHITE)][whitePieceCount].reset(new Pawn{Color::WHITE, iBoardRow, iBoardCol, &mTiles});
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount++].get());
+            } 
 
             if(word == "bKing")
             {
                 mPieces[int(Color::BLACK)][blackPieceCount].reset(new King{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
-                mKings[int(Color::BLACK)] = mPieces[int(Color::BLACK)][blackPieceCount++].get();
+                mKings[int(Color::BLACK)] = mPieces[int(Color::BLACK)][blackPieceCount].get();
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
             }
             if(word == "bQueen")
-                mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Queen{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::BLACK)][blackPieceCount].reset(new Queen{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
+            }
             if(word == "bRook")
-                mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Rook{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::BLACK)][blackPieceCount].reset(new Rook{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
+            }
             if(word == "bBishop")
-                mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Bishop{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::BLACK)][blackPieceCount].reset(new Bishop{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
+            }
             if(word == "bKnight")
-                mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Knight{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::BLACK)][blackPieceCount].reset(new Knight{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
+            }
             if(word == "bPawn")
-                mPieces[int(Color::BLACK)][blackPieceCount++].reset(new Pawn{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+            {
+                mPieces[int(Color::BLACK)][blackPieceCount].reset(new Pawn{Color::BLACK, iBoardRow, iBoardCol, &mTiles});
+                mTiles[iBoardRow][iBoardCol].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
+            }
         }
     }
-
-    // Fill in the rest with blanks
-    for (int i = whitePieceCount; i < MAX_PIECE_COUNT; ++i)
-        mPieces[int(Color::WHITE)][i].reset(nullptr);
-
-    for (int i = blackPieceCount; i < MAX_PIECE_COUNT; ++i)
-        mPieces[int(Color::BLACK)][i].reset(nullptr);
 
     mTurnColor = turnColor;
 }
