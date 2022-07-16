@@ -343,6 +343,22 @@ bool ChessBoard::isInCheck(Color kingColor) const
     return false;
 }
 
+//Can only be used when the states stack is empty
+bool ChessBoard::finalMove(int oldRow, int oldCol, int newRow, int newCol)
+{
+    //If there is an ongoing temp move
+    if(mStates.size() != 0)
+        return false;
+
+    //Make a temp move
+    if(this->tempMove(oldRow, oldCol, newRow, newCol) == false)
+        return false;
+
+    //Pop the stack without restoring the board
+    mStates.pop();
+}
+
+
 //Pushes on the stack
 bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
 {
@@ -417,7 +433,7 @@ bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
     return true;
 }
 
-//Pops off the stack
+//Pops off the stack and restore the board
 bool ChessBoard::undoTempMove()
 {
     //If the stack is empty
