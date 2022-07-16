@@ -45,7 +45,8 @@ class ChessBoard
 
   private:
     //64 total tiles on the board
-    Tile mTiles[8][8];
+    //Tile mTiles[8][8];
+    std::array<std::array<Tile, 8>,8> mTiles;
 
     //16 pieces of each color
     std::array<std::array<std::unique_ptr<Piece>, 16>,2> mPieces; // Access example: mPieces[int(Color::WHITE)][3]
@@ -58,5 +59,5 @@ class ChessBoard
     
     //Remember board states
     //First state is always the actual state of the board
-    std::stack<std::unordered_map<Piece*, Tile*>> mStates;
+    std::stack<std::unordered_map<Piece*, std::pair<int,int>>> mStates;
 };

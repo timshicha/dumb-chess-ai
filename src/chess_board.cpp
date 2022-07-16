@@ -1,5 +1,12 @@
 #include "chess_board.h"
+#include "chess_pair.h"
+#include "pieces/pieces.h"
 
+#include <memory>
+#include <unordered_map>
+#include <stack>
+#include <vector>
+#include <array>
 
 ChessBoard::ChessBoard()
 {
@@ -316,14 +323,17 @@ bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
         return false;
 
     //Rememeber the current state
-    std::unordered_map<Piece*, Tile*> currentState;
+    std::unordered_map<Piece*, std::pair<int, int>> currentState;
     for(auto& iSameColorPieces : mPieces)
     {
         for(auto& iPiece : iSameColorPieces)
         {
             //Insert every piece as a key, and every tile as the data
-            currentState.insert({iPiece.get(), iPiece->getTile()});
-            iPiece->getTile();
+            //If a piece is dead, map it to {-1, -1}
+            if(iPiece->isAlive() == false)
+                currentState.insert({iPiece.get(), {-1, -1}});
+
+            currentState.insert({iPiece.get(), {iPiece->getRow(), iPiece->getCol()}});
         }
     }
     //Push the state on the stack
@@ -339,7 +349,7 @@ bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
     }
 
     //Move the target piece onto the target tile
-    targetPiece->getTile()->setContainedPiece(nullptr;)
+    mTiles[targetPiece->getRow()][targetPiece->getCol()].setContainedPiece(nullptr);
     targetPiece->setPosition(newRow, newCol);
     targetTile->setContainedPiece(targetPiece);
 
@@ -356,5 +366,43 @@ bool ChessBoard::tempMove(int oldRow, int oldCol, int newRow, int newCol)
             undoTempMove();
             return false;
         }
+    return true;
+}
+
+//Pops off the stack
+bool ChessBoard::undoTempMove()
+{
+    //If the stack is empty
+        if(mStates.size() == 0)
+        return false;
+
+    //Restore the board
+    auto& map = mStates.top();
+    for (auto& [piece, tileCoordinates] : map)
+		{
+            //If piece wasn't mapped
+			if(tileCoordinates.first == -1)
+                continue;
+            
+            //If this piece was killed last temp move
+            if(piece->isAlive() == false)
+            {
+                piece->undoKill(tileCoordinates.first, tileCoordinates.second);
+                mTiles[tileCoordinates.first][tileCoordinates.second].setContainedPiece(piece);
+            }
+            ////If this piece was moved last temp move
+            if(piece->getRow() != tileCoordinates.first)
+            {
+                piece->setPosition(tileCoordinates.first, tileCoordinates.second);
+                mTiles[tileCoordinates.first][tileCoordinates.second].setContainedPiece(piece);
+            }
+		}
+
+     //Switch the color of the turn
+    if(mTurnColor == Color::WHITE)
+        mTurnColor = Color::BLACK;
+    else
+        mTurnColor = Color::WHITE;
+
     return true;
 }
