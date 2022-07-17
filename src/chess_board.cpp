@@ -233,6 +233,11 @@ ChessBoard::ChessBoard(const char* filename, Color turnColor)
     mTurnColor = turnColor;
 }
 
+ //Returns an array of pieces of the specified color
+const std::array<std::unique_ptr<Piece>, 16>& ChessBoard::operator[](Color color)
+{
+    return mPieces[(int)color];
+}
 
 // Converts the chess board into a nicely formatted string.
 // The string can be displayed for a nice looking chess board visual.
@@ -478,6 +483,14 @@ void ChessBoard::switchTurnColor()
         mTurnColor = Color::BLACK;
     else
         mTurnColor = Color::WHITE;
+}
+
+//Throws error if the wrong color is passed in
+std::vector<std::pair<int,int>> ChessBoard::getLegalMoves(Color pieceColor, int pieceIndex) const
+{
+    if(pieceColor != mTurnColor)
+        throw(std::runtime_error{ "Error: Piece is wrong color for the turn, it has no legal moves.\n" });
+    return mPieces[(int)pieceColor][pieceIndex]->getLegalMoves();
 }
 
 //Returns how many states are on the stack

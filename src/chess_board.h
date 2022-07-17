@@ -20,7 +20,7 @@ class ChessBoard
     ~ChessBoard() = default;
 
     //Returns an array of pieces of the specified color
-     const std::array<Piece, 16>& operator[](Color);
+     const std::array<std::unique_ptr<Piece>, 16>& operator[](Color);
 
     // Nice visualization tool for debugging
     std::string get_board_as_string();
