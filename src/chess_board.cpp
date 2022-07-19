@@ -46,8 +46,8 @@ ChessBoard::ChessBoard()
     mTiles[7][3].setContainedPiece(mPieces[int(Color::WHITE)][whitePieceCount].get());
     mKings[int(Color::WHITE)] = mPieces[int(Color::WHITE)][whitePieceCount++].get();
     
-    mPieces[int(Color::BLACK)][whitePieceCount].reset(new King{Color::BLACK, 0, 3, &mTiles});
-    mTiles[7][3].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount].get());
+    mPieces[int(Color::BLACK)][blackPieceCount].reset(new King{Color::BLACK, 0, 3, &mTiles});
+    mTiles[0][3].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount].get());
     mKings[int(Color::BLACK)] = mPieces[int(Color::BLACK)][blackPieceCount++].get();
 
     //Add queens
@@ -88,7 +88,7 @@ ChessBoard::ChessBoard()
     mPieces[int(Color::BLACK)][blackPieceCount].reset(new Rook{Color::BLACK, 0, 0, &mTiles});
     mTiles[0][0].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
     mPieces[int(Color::BLACK)][blackPieceCount].reset(new Rook{Color::BLACK, 0, 7, &mTiles});
-    mTiles[7][0].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
+    mTiles[0][7].setContainedPiece(mPieces[int(Color::BLACK)][blackPieceCount++].get());
     
     //Add pawns
     for(int iCol = 0; iCol < 8; ++iCol)
@@ -305,19 +305,6 @@ std::string ChessBoard::get_board_as_string()
     return result;
 }
 
-void ChessBoard::test()
-{
-    for (int i = 0; i < 8; ++i)
-    {
-        Piece* temp = mPieces[int(Color::BLACK)][i].get();
-        while (temp->peekNextPossibleMove() == true) 
-        {
-            std::cout << this->get_board_as_string() << "\n\n";
-        }
-    }
-    
-}
-
 bool ChessBoard::isInCheck(Color kingColor) const
 {
     // Get the king's position
@@ -361,6 +348,8 @@ bool ChessBoard::finalMove(int oldRow, int oldCol, int newRow, int newCol)
 
     //Pop the stack without restoring the board
     mStates.pop();
+
+    return true;
 }
 
 
@@ -462,8 +451,9 @@ bool ChessBoard::undoTempMove()
             ////If this piece was moved last temp move
             if(piece->getRow() != tileCoordinates.first)
             {
-                piece->setPosition(tileCoordinates.first, tileCoordinates.second);
-                mTiles[tileCoordinates.first][tileCoordinates.second].setContainedPiece(piece);
+                mTiles[piece->getRow()][piece->getCol()].setContainedPiece(nullptr);    //Disconnect from current tile
+                piece->setPosition(tileCoordinates.first, tileCoordinates.second);  //Update piece's position
+                mTiles[tileCoordinates.first][tileCoordinates.second].setContainedPiece(piece); //Connect piece to new tile
             }
 		}
 
@@ -485,12 +475,34 @@ void ChessBoard::switchTurnColor()
         mTurnColor = Color::WHITE;
 }
 
-//Throws error if the wrong color is passed in
-std::vector<std::pair<int,int>> ChessBoard::getLegalMoves(Color pieceColor, int pieceIndex) const
+///Throws error if the wrong color is passed in
+std::vector<std::pair<int,int>> ChessBoard::getLegalMoves(Color pieceColor, int pieceIndex)
 {
     if(pieceColor != mTurnColor)
         throw(std::runtime_error{ "Error: Piece is wrong color for the turn, it has no legal moves.\n" });
-    return mPieces[(int)pieceColor][pieceIndex]->getLegalMoves();
+   
+    auto moves = mPieces[(int)pieceColor][pieceIndex]->getLegalMoves();
+    int currentRow = mPieces[(int)pieceColor][pieceIndex]->getRow();
+    int currentCol = mPieces[(int)pieceColor][pieceIndex]->getCol();
+
+    //Go through all of the moves and mark the failed ones
+    for(auto& iMoveCoordinates : moves)
+    {
+        if(this->tempMove(currentRow, currentCol, iMoveCoordinates.first, iMoveCoordinates.second) == false)
+        {
+            //Mark the element
+            iMoveCoordinates.first = -1;
+            iMoveCoordinates.second = -1;
+            continue;
+        }
+        undoTempMove();
+    }
+    
+    //Remove all of the marked elements from the vector
+    moves.erase(std::remove(moves.begin(), moves.end(), std::make_pair(-1, -1)), moves.end());
+    
+    //Return the vector
+    return moves;
 }
 
 //Returns how many states are on the stack
