@@ -41,7 +41,7 @@ class ChessBoard
     int countTempMoves() const;
 
     //Throws error if the wrong color is passed in
-    std::vector<std::pair<int,int>> getLegalMoves(Color pieceColor, int pieceIndex) const;
+    std::vector<std::pair<int,int>> getLegalMoves(Color pieceColor, int pieceIndex);
   
   private:
     //Flip the color of the ongoing turn

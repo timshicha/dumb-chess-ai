@@ -63,14 +63,16 @@ Color Piece::getColor() const { return mColor; }
 
 int Piece::getRow() const 
 { 
-    throw(std::runtime_error{ "Error: Attempted to get the position of killed piece\n" });
+    if(mAlive == false)
+        throw(std::runtime_error{ "Error: Attempted to get the position of killed piece\n" });
     return mRow; 
 }
 
 
 int Piece::getCol() const
 { 
-    throw(std::runtime_error{ "Error: Attempted to get the position of killed piece\n" });
+    if(mAlive == false)
+        throw(std::runtime_error{ "Error: Attempted to get the position of killed piece\n" });
     return mCol; 
 }
 
