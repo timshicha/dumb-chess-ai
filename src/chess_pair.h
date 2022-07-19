@@ -38,7 +38,7 @@ class Piece
     int getRow() const;
     int getCol() const;
     bool isAlive() const;
-    virtual int getValue() const = 0;
+    int getValue() const;
 
     // Returns a vector of the squares that the piece can move to (does not check
     // if the move puts own king in check).

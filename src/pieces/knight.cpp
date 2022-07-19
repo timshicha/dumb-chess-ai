@@ -48,10 +48,4 @@ std::vector<std::pair<int, int>> Knight::getLegalMoves() const
     return legalMoves;
 }
 
-
-bool Knight::peekNextPossibleMove() { return false; }
-
-
-int Knight::getValue() const { return mValue; }
-
 std::string Knight::getName() const { return "Knight"; }

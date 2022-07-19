@@ -41,9 +41,4 @@ std::vector<std::pair<int, int>> Queen::getLegalMoves() const
     return legalMoves;
 }
 
-bool Queen::peekNextPossibleMove() { return false; }
-
-
-int Queen::getValue() const { return mValue; }
-
 std::string Queen::getName() const { return "Queen "; }

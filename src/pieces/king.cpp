@@ -44,13 +44,4 @@ std::vector<std::pair<int, int>> King::getLegalMoves() const
     return legalMoves;
 }
 
-bool King::peekNextPossibleMove() { return false; }
-
-
-int King::getValue() const
-{
-    // King does not have an exchangeable value
-    return 0;
-}
-
 std::string King::getName() const { return "King  "; }

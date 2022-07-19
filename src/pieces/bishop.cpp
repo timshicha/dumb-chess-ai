@@ -40,9 +40,4 @@ std::vector<std::pair<int, int>> Bishop::getLegalMoves() const
     return legalMoves;
 }
 
-//Returns true until a complete cycle of patterns has been complete
-bool Bishop::peekNextPossibleMove() { return false;}
-
-int Bishop::getValue() const { return mValue; }
-
 std::string Bishop::getName() const { return "Bishop"; }

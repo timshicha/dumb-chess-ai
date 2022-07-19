@@ -42,9 +42,4 @@ std::vector<std::pair<int, int>> Rook::getLegalMoves() const
 }
 
 
-bool Rook::peekNextPossibleMove() { return false; }
-
-
-int Rook::getValue() const { return mValue; }
-
 std::string Rook::getName() const { return "Rook  "; }
