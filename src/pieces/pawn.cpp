@@ -27,17 +27,22 @@ std::vector<std::pair<int, int>> Pawn::getLegalMoves() const
         newRow = mRow + 1;
 
     newCol = mCol - 1; // Try capturing to the left
-    Tile focusedTile = (*mTiles)[newRow][newCol];
-    // If it's an opponent's piece, we can capture
-    if(focusedTile.getContainedPiece() != nullptr && focusedTile.getContainedPiece()->getColor() != mColor)
-        legalMoves.push_back({newRow, newCol});
+    if (newCol >= 0)
+    {
+        Tile& focusedTile = (*mTiles)[newRow][newCol];
+        // If it's an opponent's piece, we can capture
+        if (focusedTile.getContainedPiece() != nullptr && focusedTile.getContainedPiece()->getColor() != mColor)
+            legalMoves.push_back({ newRow, newCol });
+    }
 
     newCol = mCol + 1; // Try capturing to the right
-    focusedTile = (*mTiles)[newRow][newCol];
-    // If it's an opponent's piece, we can capture
-    if(focusedTile.getContainedPiece() != nullptr && focusedTile.getContainedPiece()->getColor() != mColor)
-        legalMoves.push_back({newRow, newCol});
-
+    if (newCol < 8)
+    {
+        Tile& focusedTile = (*mTiles)[newRow][newCol];
+        // If it's an opponent's piece, we can capture
+        if (focusedTile.getContainedPiece() != nullptr && focusedTile.getContainedPiece()->getColor() != mColor)
+            legalMoves.push_back({ newRow, newCol });
+    }
     // ----- Can we move forward? -----
 
     newCol = mCol;
@@ -64,10 +69,5 @@ std::vector<std::pair<int, int>> Pawn::getLegalMoves() const
     }
     return legalMoves;
 }
-
-bool Pawn::peekNextPossibleMove() { return false; }
-
-
-int Pawn::getValue() const { return mValue; }
 
 std::string Pawn::getName() const { return "Pawn  "; }
